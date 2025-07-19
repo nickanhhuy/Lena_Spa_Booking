@@ -18,7 +18,7 @@ public class BookingService {
         return bookingRepository.save(bookInfo);
     }
 
-    public List<BookInfo> getBookings(BookInfo bookInfo) {
+    public List<BookInfo> getBookings() {
         return bookingRepository.findAll(); //User can see all their bookings or Admin can see all the booking of all users
     }
 
