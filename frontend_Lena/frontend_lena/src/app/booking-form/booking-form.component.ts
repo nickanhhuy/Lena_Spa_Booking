@@ -14,12 +14,11 @@ import { BookingService } from '../bookingservice.service';
 })
 export class BookingFormComponent {
   booking: Booking = {
-    id: 0,
     name: '',
     email: '',
     phone: '',
     service: '',
-    dateTime: ''
+    bookingDate: ''
   };
   
   successMessage: string = '';
@@ -32,12 +31,11 @@ export class BookingFormComponent {
         console.log('Booking submitted:', data);
         this.successMessage = 'Successfully Booked!';
         this.booking = {
-          id: 0,
           name: '',
           email: '',
           phone: '',
           service: '',
-          dateTime: ''
+          bookingDate: ''
         };
       },
       error: err => {

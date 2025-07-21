@@ -21,10 +21,12 @@ public class MainController {
     public List<BookInfo> getBookingLists() {
         return bookingService.getBookings();
     }
+
     @PostMapping("/bookings/addbooking") // add a new booking
-    public void addBooking(@RequestBody BookInfo booking) {
-        bookingService.addOrUpdateBookInfo(booking);
+    public BookInfo addBooking(@RequestBody BookInfo booking) {
+       return bookingService.addOrUpdateBookInfo(booking);
     }
+
     @PutMapping("/bookings/{id}/update") // edit the information of the booking
     public BookInfo updateBooking(@RequestBody BookInfo updated_booking, @PathVariable Long id) {
         return bookingService.getBookingById(id).map(existing_booking -> {
@@ -40,6 +42,7 @@ public class MainController {
     public void deleteBooking(@PathVariable Long id) {
         bookingService.deleteById(id);
     }
+
     @GetMapping("/user")
     public List<BookInfo> getBookingsByEmail(@RequestParam String email) {
         return bookingService.getByEmail(email);

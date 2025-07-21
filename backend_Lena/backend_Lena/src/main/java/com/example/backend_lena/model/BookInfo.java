@@ -18,7 +18,8 @@ public class BookInfo {
     private String service;
     private LocalDateTime bookingDate;
 
-    public BookInfo(String name, String email, String phone, String service, LocalDateTime bookingDate) {
+    public BookInfo(Long id, String name, String email, String phone, String service, LocalDateTime bookingDate) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -28,6 +29,14 @@ public class BookInfo {
 
     public BookInfo() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getBookingDate() {

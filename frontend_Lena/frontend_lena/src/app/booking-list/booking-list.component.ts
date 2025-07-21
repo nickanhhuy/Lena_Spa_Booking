@@ -19,9 +19,12 @@ export class BookingListComponent  {
 
  getBookings() {
     this.bookingService.getAllBooking().subscribe({
-      next: data => this.bookings = data,
-      error: err => console.error('Error fetching appointments', err)
-    });
+      next: data => {
+      console.log('Loaded bookings:', data);  // Check here if every booking has a valid id
+      this.bookings = data;
+    },
+    error: err => console.error('Failed to load bookings', err)
+  });
   }
 
   cancelBooking(id: number) {

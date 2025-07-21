@@ -14,8 +14,8 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
-    public BookInfo addOrUpdateBookInfo(BookInfo bookInfo) {
-        return bookingRepository.save(bookInfo);
+    public BookInfo addOrUpdateBookInfo(BookInfo booking) {
+        return bookingRepository.save(booking);
     }
 
     public List<BookInfo> getBookings() {
