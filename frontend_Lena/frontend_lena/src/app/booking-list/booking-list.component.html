@@ -20,6 +20,9 @@
         <td>{{ booking.service }}</td>
         <td>{{ booking.bookingDate | date:'short' }}</td>
         <td>
+          <button class="btn-update" (click)="onEditClick(booking)">
+            Update
+          </button>
           <button class="btn btn-sm btn-danger" (click)="cancelBooking(booking.id!)">
             Cancel
           </button>
@@ -27,7 +30,18 @@
       </tr>
     </tbody>
   </table>
+  <div *ngIf="selectedBooking">
+    <h3>Edit Booking</h3>
+    <form (ngSubmit)="updateBooking()">
+      <input [(ngModel)]="selectedBooking.name" name="name" placeholder="Name" required>
+      <input [(ngModel)]="selectedBooking.email" name="email" placeholder="Email" required>
+      <input [(ngModel)]="selectedBooking.phone" name="phone" placeholder="Phone" required>
+      <input [(ngModel)]="selectedBooking.service" name="service" placeholder="Service" required>
+      <input [(ngModel)]="selectedBooking.bookingDate" name="bookingDate" type="datetime-local" required>
 
+      <button type="submit">Update Booking</button>
+    </form>
+  </div>
   <ng-template #noData>
     <p>No appointments found.</p>
   </ng-template>
