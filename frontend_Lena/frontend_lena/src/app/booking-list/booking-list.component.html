@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2>All Booked Appointments</h2>
+
+  <table class="table table-bordered mt-3" *ngIf="bookings.length > 0; else noData">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Service</th>
+        <th>Date & Time</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td>{{ booking.name }}</td>
+        <td>{{ booking.email }}</td>
+        <td>{{ booking.phone }}</td>
+        <td>{{ booking.service }}</td>
+        <td>{{ booking.dateTime | date:'short' }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" (click)="cancelBooking(booking.id!)">
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noData>
+    <p>No appointments found.</p>
+  </ng-template>
+</div>
+
