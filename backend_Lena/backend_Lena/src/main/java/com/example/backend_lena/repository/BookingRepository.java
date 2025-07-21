@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface BookingRepository  extends JpaRepository<BookInfo, Long> {
     List<BookInfo> findByEmail(String email);
-
 }

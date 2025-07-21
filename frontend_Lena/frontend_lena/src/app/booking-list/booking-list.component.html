@@ -18,7 +18,7 @@
         <td>{{ booking.email }}</td>
         <td>{{ booking.phone }}</td>
         <td>{{ booking.service }}</td>
-        <td>{{ booking.dateTime | date:'short' }}</td>
+        <td>{{ booking.bookingDate | date:'short' }}</td>
         <td>
           <button class="btn btn-sm btn-danger" (click)="cancelBooking(booking.id!)">
             Cancel
