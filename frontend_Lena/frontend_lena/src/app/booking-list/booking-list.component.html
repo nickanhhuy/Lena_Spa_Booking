@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <h2>All Booked Appointments</h2>
 
-  <table class="table table-bordered mt-3" *ngIf="bookings.length > 0; else noData">
+  <table class="updateBookingInfo_btn" *ngIf="bookings.length > 0; else noData">
     <thead class="table-light">
       <tr>
         <th>Name</th>
@@ -20,7 +20,7 @@
         <td>{{ booking.service }}</td>
         <td>{{ booking.bookingDate | date:'short' }}</td>
         <td>
-          <button class="btn-update" (click)="onEditClick(booking)">
+          <button class="updateButton" (click)="editBooking(booking)">
             Update
           </button>
           <button class="btn btn-sm btn-danger" (click)="cancelBooking(booking.id!)">
