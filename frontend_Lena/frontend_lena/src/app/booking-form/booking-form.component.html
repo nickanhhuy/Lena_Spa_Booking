@@ -1,27 +1,27 @@
 <div class="container mt-4">
   <h2>Book a Beauty Appointment</h2>
   <form (ngSubmit)="submitBooking()" #form="ngForm">
-    <div class="mb-2">
+    <div class="name_label">
       <label>Name:</label>
       <input type="text" class="form-control" [(ngModel)]="booking.name" name="name" required>
     </div>
 
-    <div class="mb-2">
+    <div class="email_label">
       <label>Email:</label>
       <input type="email" class="form-control" [(ngModel)]="booking.email" name="email" required>
     </div>
 
-    <div class="mb-2">
+    <div class="phone_label">
       <label>Phone:</label>
       <input type="tel" class="form-control" [(ngModel)]="booking.phone" name="phone" required>
     </div>
 
-    <div class="mb-2">
+    <div class="service_label">
       <label>Service:</label>
       <input type="text" class="form-control" [(ngModel)]="booking.service" name="service" required>
     </div>
 
-    <div class="mb-2">
+    <div class="date_label">
       <label>Date & Time:</label>
       <input type="datetime-local" class="form-control" [(ngModel)]="booking.bookingDate" name="dateTime" required>
     </div>
