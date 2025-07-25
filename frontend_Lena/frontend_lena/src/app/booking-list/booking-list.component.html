@@ -36,7 +36,17 @@
       <input [(ngModel)]="selectedBooking.name" name="name" placeholder="Name" required>
       <input [(ngModel)]="selectedBooking.email" name="email" placeholder="Email" required>
       <input [(ngModel)]="selectedBooking.phone" name="phone" placeholder="Phone" required>
-      <input [(ngModel)]="selectedBooking.service" name="service" placeholder="Service" required>
+      <select [(ngModel)]="selectedBooking.service" name="service" required>
+            <option value="">-- Select a service --</option>
+            <option>Chăm sóc da cơ bản</option>
+            <option>Chăm sóc da chuyên sâu</option>
+            <option>Chăm sóc da mụn</option>
+            <option>Chăm sóc Thải Độc Da</option>
+            <option>Cấy trăng Nano</option>
+            <option>Căng bóng</option>
+            <option>Cấy trắng và căn bóng chuyên sâu</option>
+            <option>Chăm sóc Massage Nâng cơ Ageloc</option>
+      </select>
       <input [(ngModel)]="selectedBooking.bookingDate" name="bookingDate" type="datetime-local" required>
 
       <button type="submit">Update Booking</button>

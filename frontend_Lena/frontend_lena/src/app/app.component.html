@@ -1,2 +1,13 @@
-<app-booking-form></app-booking-form>
-<app-booking-list></app-booking-list>
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/app-home">Beauty Spa</a>
+    <div>
+      <button class="btn btn-outline-primary me-2" routerLink="/app-booking-form">Book Now</button>
+      <button class="btn btn-outline-secondary" routerLink="/app-booking-list">Booking List</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <router-outlet></router-outlet>
+</div>

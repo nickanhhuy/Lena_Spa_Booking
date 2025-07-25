@@ -18,7 +18,17 @@
 
     <div class="service_label">
       <label>Service:</label>
-      <input type="text" class="form-control" [(ngModel)]="booking.service" name="service" required>
+        <select class="form-control" [(ngModel)]="booking.service" name="service" required>
+          <option value="">-- Select a service --</option>
+          <option>Chăm sóc da cơ bản</option>
+          <option>Chăm sóc da chuyên sâu</option>
+          <option>Chăm sóc da mụn</option>
+          <option>Chăm sóc Thải Độc Da</option>
+          <option>Cấy trăng Nano</option>
+          <option>Căng bóng</option>
+          <option>Cấy trắng và căn bóng chuyên sâu</option>
+          <option>Chăm sóc Massage Nâng cơ Ageloc</option>
+        </select>
     </div>
 
     <div class="date_label">
