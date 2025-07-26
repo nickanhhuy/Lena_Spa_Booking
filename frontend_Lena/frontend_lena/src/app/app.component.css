@@ -1,0 +1,60 @@
+.app-header {
+    background: linear-gradient(to right, #7cb9f6, #add4f4);
+    padding: 10px 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.app-container {
+    text-align: center;
+    margin: 75px;
+    padding: 5px;
+}
+.app-container p {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.app-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 10px;
+    align-items: center;   
+    padding: 10px; 
+    gap: 20px;
+    font-weight: bold;
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    margin: 20px;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+}
+.menu-links a:hover {
+    color: #337ad6;
+    border-bottom: 3px solid #337ad6;
+}
+
+
+.login-signup a {
+    text-decoration: none;
+    position: relative;
+    background-color: #337ad6;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color:blanchedalmond;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+.login-signup a:hover {
+    color: #b42a6e;
+}
