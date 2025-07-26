@@ -1,0 +1,83 @@
+.background-container {
+    background-image: url('../../images/spabg.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #77bafcc8;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(38, 5, 5, 0.619);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #275889;
+}
+
+.container .name_label,
+.container .email_label,
+.container .phone_label,
+.container .service_label,
+.container .date_label,
+.container .time_label {
+    margin-bottom: 20px;
+}
+
+.container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+
+.container input.form-control,
+.container select.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.container input.form-control:focus,
+.container select.form-control:focus {
+    outline: none;
+    border-color: #337ad6;
+    box-shadow: 0 0 5px rgba(51, 122, 214, 0.3);
+}
+
+.container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #337ad6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.container button[type="submit"]:hover {
+    background-color: #255bb5;
+    cursor: pointer;
+}
