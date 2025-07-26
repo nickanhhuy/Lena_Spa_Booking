@@ -1,42 +1,43 @@
-<div class="container mt-4">
-  <h2>Book a Beauty Appointment</h2>
-  <form (ngSubmit)="submitBooking()" #form="ngForm">
-    <div class="name_label">
-      <label>Name:</label>
-      <input type="text" class="form-control" [(ngModel)]="booking.name" name="name" required>
-    </div>
+<div class="background-container">  
+  <div class="container">
+    <h2>Book Your Appointment</h2>
+    <form (ngSubmit)="submitBooking()" #form="ngForm">
+      <div class="name_label">
+        <label>Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="booking.name" name="name" placeholder="Your Name" required>
+      </div>
 
-    <div class="email_label">
-      <label>Email:</label>
-      <input type="email" class="form-control" [(ngModel)]="booking.email" name="email" required>
-    </div>
+      <div class="email_label">
+        <label>Email:</label>
+        <input type="email" class="form-control" [(ngModel)]="booking.email" name="email" placeholder="example@gmail.com" required>
+      </div>
 
-    <div class="phone_label">
-      <label>Phone:</label>
-      <input type="tel" class="form-control" [(ngModel)]="booking.phone" name="phone" required>
-    </div>
+      <div class="phone_label">
+        <label>Phone:</label>
+        <input type="tel" class="form-control" [(ngModel)]="booking.phone" name="phone" placeholder="Phone Number">
+      </div>
 
-    <div class="service_label">
-      <label>Service:</label>
-        <select class="form-control" [(ngModel)]="booking.service" name="service" required>
-          <option value=""> Select a service </option>
-          <option>Chăm sóc da cơ bản</option>
-          <option>Chăm sóc da chuyên sâu</option>
-          <option>Chăm sóc da mụn</option>
-          <option>Chăm sóc Thải Độc Da</option>
-          <option>Cấy trăng Nano</option>
-          <option>Căng bóng</option>
-          <option>Cấy trắng và căn bóng chuyên sâu</option>
-          <option>Chăm sóc Massage Nâng cơ Ageloc</option>
-        </select>
-    </div>
+      <div class="service_label">
+        <label>Service:</label>
+          <select class="form-control" [(ngModel)]="booking.service" name="service" required>
+            <option value=""> Select a service </option>
+            <option>Chăm sóc da cơ bản</option>
+            <option>Chăm sóc da chuyên sâu</option>
+            <option>Chăm sóc da mụn</option>
+            <option>Chăm sóc Thải Độc Da</option>
+            <option>Cấy trăng Nano</option>
+            <option>Căng bóng</option>
+            <option>Cấy trắng và căn bóng chuyên sâu</option>
+            <option>Chăm sóc Massage Nâng cơ Ageloc</option>
+          </select>
+      </div>
 
-    <div class="date_label">
-      <label>Date & Time:</label>
-      <input type="datetime-local" class="form-control" [(ngModel)]="booking.bookingDate" name="dateTime" required>
-    </div>
+      <div class="date_label">
+        <label>Date & Time:</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="booking.bookingDate" name="dateTime" required>
+      </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Book</button>
-  </form>
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Book</button>
+    </form>
+  </div>
 </div>
-
