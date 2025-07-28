@@ -1,5 +1,6 @@
 .app-header {
-    background: linear-gradient(to right, #7cb9f6, #add4f4);
+    /* background: linear-gradient(to right, #7cb9f6, #add4f4); */
+    background: #a8c3a0;
     padding: 10px 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
@@ -40,15 +41,15 @@
     border-bottom: 2px solid transparent;
 }
 .menu-links a:hover {
-    color: #337ad6;
-    border-bottom: 3px solid #337ad6;
+    color: #639a3e;
+    border-bottom: 3px solid #639a3e;
 }
 
 
 .login-signup a {
     text-decoration: none;
     position: relative;
-    background-color: #337ad6;
+    background-color: #639a3e;
     padding: 10px 20px;
     font-size: 20px;
     font-weight: bold;
@@ -57,5 +58,5 @@
     transition: background-color 0.3s ease;
 }
 .login-signup a:hover {
-    color: #b42a6e;
+    color: #1f3e0b;
 }

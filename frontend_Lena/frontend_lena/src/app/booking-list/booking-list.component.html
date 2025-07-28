@@ -1,59 +1,66 @@
-<div class="container mt-4">
-  <h2>All Booked Appointments</h2>
+<div class="bg-container">
+  <div class="container">
+    <h2>All Booked Appointments</h2>
 
-  <table class="updateBookingInfo_btn" *ngIf="bookings.length > 0; else noData">
-    <thead class="table-light">
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Service</th>
-        <th>Date & Time</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let booking of bookings">
-        <td>{{ booking.name }}</td>
-        <td>{{ booking.email }}</td>
-        <td>{{ booking.phone }}</td>
-        <td>{{ booking.service }}</td>
-        <td>{{ booking.bookingDate | date:'short' }}</td>
-        <td>
-          <button class="updateButton" (click)="editBooking(booking)">
-            Update
-          </button>
-          <button class="cancelButton" (click)="cancelBooking(booking.id!)">
-            Cancel
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="selectedBooking">
-    <h3>Edit Booking</h3>
-    <form (ngSubmit)="updateBooking()">
-      <input [(ngModel)]="selectedBooking.name" name="name" placeholder="Name" required>
-      <input [(ngModel)]="selectedBooking.email" name="email" placeholder="Email" required>
-      <input [(ngModel)]="selectedBooking.phone" name="phone" placeholder="Phone" required>
-      <select [(ngModel)]="selectedBooking.service" name="service" required>
-            <option value="">-- Select a service --</option>
-            <option>Chăm sóc da cơ bản</option>
-            <option>Chăm sóc da chuyên sâu</option>
-            <option>Chăm sóc da mụn</option>
-            <option>Chăm sóc Thải Độc Da</option>
-            <option>Cấy trăng Nano</option>
-            <option>Căng bóng</option>
-            <option>Cấy trắng và căn bóng chuyên sâu</option>
-            <option>Chăm sóc Massage Nâng cơ Ageloc</option>
-      </select>
-      <input [(ngModel)]="selectedBooking.bookingDate" name="bookingDate" type="datetime-local" required>
+    <table class="updateBookingInfo_btn" *ngIf="bookings.length > 0; else noData">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Service</th>
+          <th>Date & Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.name }}</td>
+          <td>{{ booking.email }}</td>
+          <td>{{ booking.phone }}</td>
+          <td>{{ booking.service }}</td>
+          <td>{{ booking.bookingDate | date:'short' }}</td>
+          <td>
+            <button class="updateButton" (click)="editBooking(booking)">
+              Update
+            </button>
+            <button class="cancelButton" (click)="cancelBooking(booking.id!)">
+              Cancel
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="selectedBooking" class="edit-container">
+      <h3 style="text-align: center; margin-top: 20px;">Edit Booking</h3>
+      <form (ngSubmit)="updateBooking()">
+        <label for="name">Name:</label>
+        <input [(ngModel)]="selectedBooking.name" name="name" placeholder="Name" required>
+        <label for="email">Email:</label>
+        <input [(ngModel)]="selectedBooking.email" name="email" placeholder="Email" required>
+        <label for="phone">Phone:</label>
+        <input [(ngModel)]="selectedBooking.phone" name="phone" placeholder="Phone" required>
+        <label for="service">Service:</label>
+        <select [(ngModel)]="selectedBooking.service" name="service" required>
+              <option value="">-- Select a service --</option>
+              <option>Chăm sóc da cơ bản</option>
+              <option>Chăm sóc da chuyên sâu</option>
+              <option>Chăm sóc da mụn</option>
+              <option>Chăm sóc Thải Độc Da</option>
+              <option>Cấy trăng Nano</option>
+              <option>Căng bóng</option>
+              <option>Cấy trắng và căn bóng chuyên sâu</option>
+              <option>Chăm sóc Massage Nâng cơ Ageloc</option>
+        </select>
+        <label for="bookingDate">Date & Time:</label>
+        <input [(ngModel)]="selectedBooking.bookingDate" name="bookingDate" type="datetime-local" required>
 
-      <button type="submit">Update Booking</button>
-    </form>
+        <button type="submit">Update Booking</button>
+      </form>
+    </div>
+    <ng-template #noData>
+      <p>No appointments found.</p>
+    </ng-template>
   </div>
-  <ng-template #noData>
-    <p>No appointments found.</p>
-  </ng-template>
 </div>
 

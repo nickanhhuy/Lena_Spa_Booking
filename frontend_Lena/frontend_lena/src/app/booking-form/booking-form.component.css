@@ -16,7 +16,7 @@
     max-width: 600px;
     margin: 40px auto;
     padding: 40px;
-    background-color: #77bafcc8;
+    background-color: #a8c3a0c0;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(38, 5, 5, 0.619);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,7 +27,7 @@
     margin-bottom: 30px;
     font-size: 28px;
     font-weight: bold;
-    color: #275889;
+    color: #2a5d2c;
 }
 
 .container .name_label,
@@ -60,7 +60,7 @@
 .container input.form-control:focus,
 .container select.form-control:focus {
     outline: none;
-    border-color: #337ad6;
+    border-color: #20622a;
     box-shadow: 0 0 5px rgba(51, 122, 214, 0.3);
 }
 
@@ -68,7 +68,7 @@
     width: 100%;
     padding: 12px;
     font-size: 18px;
-    background-color: #337ad6;
+    background-color: #2f672a;
     color: white;
     border: none;
     border-radius: 6px;
