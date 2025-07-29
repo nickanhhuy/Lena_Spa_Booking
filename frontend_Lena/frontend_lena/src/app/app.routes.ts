@@ -11,4 +11,5 @@ export const routes: Routes = [
     {path: 'app-booking-list', component: BookingListComponent},
     {path: 'app-login', component: LoginComponent},
     {path: 'app-signup', component: SignUpComponent},
+    {path: '', redirectTo: '/app-home', pathMatch: 'full'},
 ];
