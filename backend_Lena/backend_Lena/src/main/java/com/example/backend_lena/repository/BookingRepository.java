@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BookingRepository  extends JpaRepository<BookInfo, Long> {
     List<BookInfo> findByEmail(String username);
+    List<BookInfo> findByCreatedBy(String createdBy);
 }

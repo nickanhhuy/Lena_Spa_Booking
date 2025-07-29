@@ -17,6 +17,8 @@ public class BookInfo {
     private String phone;
     private String service;
     private LocalDateTime bookingDate;
+    @Column(name = "created_by")
+    private String createdBy;
 
     public BookInfo(Long id, String name, String email, String phone, String service, LocalDateTime bookingDate) {
         this.id = id;
@@ -29,6 +31,14 @@ public class BookInfo {
 
     public BookInfo() {
 
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Long getId() {

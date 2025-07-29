@@ -19,13 +19,24 @@ export class LoginComponent {
   login() {
   this.authService.login(this.credentials).subscribe({
     next: () => {
-      localStorage.setItem('loggedInUser', this.credentials.username); 
-      this.router.navigate(['/app-home']);
+      // After login success, fetch current username from backend:
+      this.authService.getCurrentUser().subscribe({
+        next: (username) => {
+          localStorage.setItem('loggedInUser', username);
+          console.log("After logout: ", localStorage.getItem('loggedInUser'));
+          this.router.navigate(['/app-home']);
+        },
+        error: () => {
+          // fallback, just navigate
+          this.router.navigate(['/app-home']);
+        }
+      });
     },
     error: () => {
       this.message = 'Login failed: Invalid credentials';
-    },
+    }
   });
 }
+
 }
 

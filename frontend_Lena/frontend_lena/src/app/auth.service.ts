@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post('/logout', {}, { responseType: 'text', withCredentials: true });
+    return this.http.post(`${this.baseUrl}/logout`, {}, { responseType: 'text', withCredentials: true });
   }
 
   isLoggedIn(): boolean {

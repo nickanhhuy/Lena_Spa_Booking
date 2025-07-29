@@ -16,7 +16,7 @@ public class MainController {
     @Autowired
     BookingService bookingService;
 
-    @GetMapping("/bookings") // get list of bookings
+    @GetMapping("/bookings")
     public List<BookInfo> getBookingLists(Authentication authentication) {
         String username = authentication.getName();
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -25,14 +25,17 @@ public class MainController {
         if (isAdmin) {
             return bookingService.getBookings();  // all bookings
         } else {
-            return bookingService.getByEmail(username); // only this user's bookings
+            return bookingService.getByCreatedBy(username); // only this user's bookings
         }
     }
 
 
-    @PostMapping("/bookings/addbooking") // add a new booking
-    public BookInfo addBooking(@RequestBody BookInfo booking) {
-       return bookingService.addOrUpdateBookInfo(booking);
+    @PostMapping("/bookings/addbooking")
+    public BookInfo addBooking(@RequestBody BookInfo booking, Authentication authentication) {
+        String username = authentication.getName();
+        System.out.println("Booking created by: " + username);
+        booking.setCreatedBy(username);
+        return bookingService.addOrUpdateBookInfo(booking);
     }
 
     @PutMapping("/bookings/{id}/update") // edit the information of the booking

@@ -7,8 +7,14 @@
             <a href=""> CONTACT </a>
         </div>
         <div class="login-signup">
-            <a routerLink="/app-login">LOGIN / SIGN UP</a>
-            
+            <ng-container *ngIf="!isLoggedIn(); else loggedInBlock">
+                <a routerLink="/app-login">LOGIN / SIGN UP</a>
+            </ng-container>
+
+            <ng-template #loggedInBlock>
+                <span>Hi {{ getUsername() }}</span>
+                <button (click)="logout()">LOGOUT</button>
+            </ng-template>
         </div>
     </div>
 

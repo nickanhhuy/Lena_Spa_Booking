@@ -34,4 +34,7 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
+    public List<BookInfo> getByCreatedBy(String createdBy) {
+        return bookingRepository.findByCreatedBy(createdBy);
+    }
 }
