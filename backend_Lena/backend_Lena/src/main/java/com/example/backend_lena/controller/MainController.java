@@ -1,9 +1,8 @@
 package com.example.backend_lena.controller;
-
-
 import com.example.backend_lena.model.BookInfo;
 import com.example.backend_lena.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +16,19 @@ public class MainController {
     @Autowired
     BookingService bookingService;
 
-    @GetMapping("/bookings") // get lists of bookings
-    public List<BookInfo> getBookingLists() {
-        return bookingService.getBookings();
+    @GetMapping("/bookings") // get list of bookings
+    public List<BookInfo> getBookingLists(Authentication authentication) {
+        String username = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            return bookingService.getBookings();  // all bookings
+        } else {
+            return bookingService.getByEmail(username); // only this user's bookings
+        }
     }
+
 
     @PostMapping("/bookings/addbooking") // add a new booking
     public BookInfo addBooking(@RequestBody BookInfo booking) {

@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository  extends JpaRepository<BookInfo, Long> {
-    List<BookInfo> findByEmail(String email);
+    List<BookInfo> findByEmail(String username);
 }

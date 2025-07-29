@@ -22,8 +22,8 @@ public class BookingService {
         return bookingRepository.findAll(); //User can see all their bookings or Admin can see all the booking of all users
     }
 
-    public List<BookInfo> getByEmail(String email) {
-        return bookingRepository.findByEmail(email);
+    public List<BookInfo> getByEmail(String username) {
+        return bookingRepository.findByEmail(username);
     }
 
     public Optional<BookInfo> getBookingById(Long id) {

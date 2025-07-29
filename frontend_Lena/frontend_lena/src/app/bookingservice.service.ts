@@ -14,22 +14,22 @@ export class BookingService {
   }
 
   getAllBooking(): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.apiUrl}/bookings`);
+    return this.http.get<Booking[]>(`${this.apiUrl}/bookings`, { withCredentials: true });
   }
 
   getByEmail(email: string): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.apiUrl}/user?email=${email}`);
+    return this.http.get<Booking[]>(`${this.apiUrl}/user?email=${email}`, { withCredentials: true });
   }
 
   addNewBooking(booking: Booking): Observable<Booking> {
-    return this.http.post<Booking>(`${this.apiUrl}/bookings/addbooking`, booking);
+    return this.http.post<Booking>(`${this.apiUrl}/bookings/addbooking`, booking, { withCredentials: true });
   }
 
   updateBooking(id: number, booking: Booking): Observable<Booking> {
-    return this.http.put<Booking>(`${this.apiUrl}/bookings/${id}/update`, booking);
+    return this.http.put<Booking>(`${this.apiUrl}/bookings/${id}/update`, booking, { withCredentials: true });
   }
 
   cancelBooking(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/bookings/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/bookings/${id}`, { withCredentials: true });
   }
 }

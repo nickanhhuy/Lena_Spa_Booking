@@ -2,7 +2,10 @@ package com.example.backend_lena.controller;
 
 import com.example.backend_lena.model.User;
 import com.example.backend_lena.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +38,19 @@ public class AuthController {
 
         return "User registered successfully";
     }
-
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User user, HttpSession session) {
+        Optional<User> existingUserOpt = userRepository.findByUsername(user.getUsername());
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            if (passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+                session.setAttribute("username", existingUser.getUsername());
+                session.setAttribute("role", existingUser.getRole());
+                return ResponseEntity.ok("Login successful");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
     // Endpoint to check who is currently logged in
     @GetMapping("/current-user")
     public String getCurrentUsername() {
