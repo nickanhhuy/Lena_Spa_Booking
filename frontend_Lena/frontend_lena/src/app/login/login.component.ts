@@ -17,19 +17,20 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
+  if (!this.credentials.username || !this.credentials.password) {
+    this.message = 'Username and password are required.';
+    return;
+  }
+
   this.authService.login(this.credentials).subscribe({
     next: () => {
-      // After login success, fetch current username from backend:
       this.authService.getCurrentUser().subscribe({
         next: (username) => {
           localStorage.setItem('loggedInUser', username);
-          console.log("After logout: ", localStorage.getItem('loggedInUser'));
+          console.log("Logged in as:", localStorage.getItem('loggedInUser'));
           this.router.navigate(['/app-home']);
         },
-        error: () => {
-          // fallback, just navigate
-          this.router.navigate(['/app-home']);
-        }
+        error: () => this.router.navigate(['/app-home'])
       });
     },
     error: () => {

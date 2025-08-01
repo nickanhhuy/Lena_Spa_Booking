@@ -3,7 +3,6 @@ import com.example.backend_lena.model.BookInfo;
 import com.example.backend_lena.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class MainController {
     @Autowired
     BookingService bookingService;
 
-    @GetMapping("/bookings")
+    @GetMapping("/bookings") //getting booking lists
     public List<BookInfo> getBookingLists(Authentication authentication) {
         String username = authentication.getName();
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -30,12 +29,12 @@ public class MainController {
     }
 
 
-    @PostMapping("/bookings/addbooking")
+    @PostMapping("/bookings/addbooking") // book a new appointment
     public BookInfo addBooking(@RequestBody BookInfo booking, Authentication authentication) {
         String username = authentication.getName();
-        System.out.println("Booking created by: " + username);
+        System.out.println("Booking created by: " + username); // check who book the appointment ( for debuging)
         booking.setCreatedBy(username);
-        return bookingService.addOrUpdateBookInfo(booking);
+        return bookingService.addOrUpdateBookInfo(booking); // add a new booking into db
     }
 
     @PutMapping("/bookings/{id}/update") // edit the information of the booking
@@ -54,8 +53,5 @@ public class MainController {
         bookingService.deleteById(id);
     }
 
-    @GetMapping("/user")
-    public List<BookInfo> getBookingsByEmail(@RequestParam String email) {
-        return bookingService.getByEmail(email);
-    }
+
 }
