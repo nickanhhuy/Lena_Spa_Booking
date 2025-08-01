@@ -1,34 +1,57 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = 'http://localhost:8080/api/auth';
 
-  http: HttpClient;
-  constructor(http: HttpClient) {
-    this.http = http;
+  constructor(private http: HttpClient, private router: Router) {}
+
+  register(user: { username: string; password: string }): Observable<string> {
+    return this.http.post(`${this.baseUrl}/register`, user, {
+      responseType: 'text',
+    });
   }
 
-  register(user: { username: string; password: string }) {
-    return this.http.post(`${this.baseUrl}/register`, user, { responseType: 'text' });
+  login(credentials: { username: string; password: string }): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text' }).subscribe({
+        next: (token: string) => {
+          localStorage.setItem('jwtToken', token);
+          observer.next(token);
+        },
+        error: (err) => {
+          observer.error(err);
+        },
+      });
+    });
   }
 
-  login(credentials: { username: string; password: string }) {
-    return this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text', withCredentials: true });
+  getCurrentUser(): Observable<string> {
+    const token = localStorage.getItem('jwtToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.baseUrl}/current-user`, {
+      headers,
+      responseType: 'text',
+    });
   }
 
-  getCurrentUser() {
-    return this.http.get(`${this.baseUrl}/current-user`, { responseType: 'text', withCredentials: true });
-  }
-
-  logout() {
-    return this.http.post(`${this.baseUrl}/logout`, {}, { responseType: 'text', withCredentials: true });
+  logout(): void {
+    localStorage.removeItem('jwtToken');
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('loggedInUser');
+    return !!localStorage.getItem('jwtToken');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('jwtToken');
   }
 }
+
 
 
