@@ -1,10 +1,8 @@
 .app-header {
-    /* background: linear-gradient(to right, #7cb9f6, #add4f4); */
-    background: #a8c3a0;
+    background: #9fb799;
     padding: 10px 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
-    
 }
 .app-container {
     text-align: center;
@@ -29,6 +27,7 @@
     padding: 10px; 
     gap: 20px;
     font-weight: bold;
+    z-index: 1000;
 }
 
 .menu-links a {

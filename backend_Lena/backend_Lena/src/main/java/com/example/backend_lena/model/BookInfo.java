@@ -1,6 +1,9 @@
 package com.example.backend_lena.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 
@@ -12,11 +15,25 @@ public class BookInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name required")
     private String name;
+
+    //Email requirement: *@gmail.com
+    @NotBlank(message = "Email required")
+    @Email(message = "Invalid email format")
+    @Pattern(regexp = "[A-Za-z0-9._%+-]+@gmail\\.com$", message = "Email with gmail.com only")
     private String email;
+
+    //Phone number including 10-11 digits
+    @NotBlank(message = "Phone required")
+    @Pattern(regexp = "^[0-9]{10,11}", message = "Phone number must include 10 or 11 digit")
     private String phone;
+
+    @NotBlank(message = "Service required")
     private String service;
+
     private LocalDateTime bookingDate;
+
     @Column(name = "created_by")
     private String createdBy;
 

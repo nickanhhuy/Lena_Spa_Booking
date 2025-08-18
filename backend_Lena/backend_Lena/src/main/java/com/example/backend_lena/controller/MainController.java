@@ -1,6 +1,7 @@
 package com.example.backend_lena.controller;
 import com.example.backend_lena.model.BookInfo;
 import com.example.backend_lena.service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class MainController {
 
 
     @PostMapping("/bookings/addbooking") // book a new appointment
-    public BookInfo addBooking(@RequestBody BookInfo booking, Authentication authentication) {
+    public BookInfo addBooking(@Valid @RequestBody BookInfo booking, Authentication authentication) {
         String username = authentication.getName();
         System.out.println("Booking created by: " + username); // check who book the appointment ( for debuging)
         booking.setCreatedBy(username);
@@ -38,7 +39,7 @@ public class MainController {
     }
 
     @PutMapping("/bookings/{id}/update") // edit the information of the booking
-    public BookInfo updateBooking(@RequestBody BookInfo updated_booking, @PathVariable Long id) {
+    public BookInfo updateBooking(@Valid @RequestBody BookInfo updated_booking, @PathVariable Long id) {
         return bookingService.getBookingById(id).map(existing_booking -> {
             existing_booking.setName(updated_booking.getName());
             existing_booking.setEmail(updated_booking.getEmail());

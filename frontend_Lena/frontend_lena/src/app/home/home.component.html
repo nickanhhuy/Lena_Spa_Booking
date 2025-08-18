@@ -9,28 +9,81 @@
 </section>
 
 <section class="about-us">
-  <h2>About Us</h2>
-  <p> </p>
-</section>
-
-<section class="staff">
-  <h2>Meet Our Expert</h2>
-  <div class="staff-profile">
-    <div>
-      <h3>Dawn, LMT & Cosmetologist</h3>
-      <p>With decades of experience, Dawn blends massage & skincare to create a holistic wellness experience... (Read More)</p>
-    </div>
+  <div class="about-us-left">
+    <h2>About Us</h2>
+  </div>
+  <div class="about-us-right">
+    <p>At Lena Beauty Spa, We’re dedicated to helping you look and feel your best—naturally. Our expert team offers soothing massages and organic skin care treatments designed to refresh your body, calm your mind, and reveal your natural glow. Step into a space where wellness meets beauty, and every visit feels like a retreat.</p>
   </div>
 </section>
 
-<section class="gift-cert">
-  <h2>Gift Certificates Available</h2>
-  <p>Purchase online 24/7 or pick up in store with a free gift.</p>
-  <a class="btn secondary" href="/gift-certificates">Buy Gift Certificates</a>
+<section class="service-container">
+  <div class="services">
+    <div class="service-card">
+      <h3>Chăm Sóc Mặt</h3>
+      <p>Mụn - Nhám - Sẹo</p>
+    </div>
+    <div class="service-card">
+      <h3>Trị Liệu Công Nghệ Cao</h3>
+      <p>Công nghệ tiên tiến hỗ trợ</p>
+    </div>
+    <div class="service-card">
+      <h3>Gói Trị Liệu Lâu Dài</h3>
+      <p>Đảm bảo vô thời hạn</p>  
+    </div>
+  </div>
+  <div class="service-menu">
+    <h3>DANH SÁCH DỊCH VỤ</h3>
+    <ul>
+      <li>Chăm sóc da cơ bản – 200.000 VND</li>
+      <li>Chăm sóc da chuyên sâu – 250.000 VND</li>
+      <li>Chăm sóc da mụn – 250.000 VND</li>
+      <li>Chăm sóc Thải Độc Da – 350.000 VND</li>
+      <li>Cấy trắng Nano – 350.000 VND</li>
+      <li>Căng bóng – 350.000 VND</li>
+      <li>Cấy trắng và căng bóng chuyên sâu – 500.000 VND</li>
+      <li>Chăm sóc Massage Nâng cơ Ageloc – 500.000 VND</li>
+    </ul>
+  </div>
+</section>
+<section class="promotion-slideshow">
+  <div class="promo-container">
+    <button class="promo-btn prev" (click)="changePromo(-1)">❮</button>
+
+    <div class="promo-slide" *ngFor="let promo of promotions; let i = index" [class.active]="i === currentIndex">
+      <h3>{{ promo.title }}</h3>
+      <p>{{ promo.description }}</p>
+    </div>
+
+    <button class="promo-btn next" (click)="changePromo(1)">❯</button>
+  </div>
 </section>
 
-<footer>
-  <p> Vu Anh Huy Nguyen - HeHe HaHa</p>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Lena Beauty Spa</h4>
+      <p>Chăm sóc sắc đẹp, thư giãn & yêu chiều làn da của bạn mỗi ngày.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Liên Hệ</h4>
+      <p>123 Spa Street, Ho Chi Minh City</p>
+      <p>0123 456 789</p>
+      <p>contactlenabeautyspa.vn</p>
+    </div>
+    <div class="footer-section">
+      <h4>Theo Dõi Chúng Tôi</h4>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Lena Beauty Spa. All rights reserved.
+  </div>
 </footer>
+
 
 
