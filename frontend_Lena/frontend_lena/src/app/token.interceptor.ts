@@ -14,7 +14,7 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('jwtToken'); // or from AuthService if you prefer
-
+    console.log('Interceptor sending token:', token);
     if (token) {
       const cloned = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`),

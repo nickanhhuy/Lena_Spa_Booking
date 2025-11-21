@@ -15,59 +15,45 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private BookingService bookingService;
+    BookingService bookingService;
 
-    /** Get all bookings */
-    @GetMapping("/bookings")
+    @GetMapping("/bookings") //getting booking lists
+
     public List<BookInfo> getBookingLists(Authentication authentication) {
         String username = authentication.getName();
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
         if (isAdmin) {
-            // Admin sees all bookings
-            return bookingService.getBookings();
+            return bookingService.getBookings();  // all bookings
+
         } else {
-            // Regular user sees only their own bookings
-            return bookingService.getByCreatedBy(username);
+            return bookingService.getByCreatedBy(username); // only this user's bookings
+
         }
     }
 
-    /** Add a new booking */
-    @PostMapping("/bookings/addbooking")
+
+    @PostMapping("/bookings/addbooking") // book a new appointment
     public BookInfo addBooking(@Valid @RequestBody BookInfo booking, Authentication authentication) {
         String username = authentication.getName();
+        System.out.println("Booking created by: " + username); // check who book the appointment ( for debuging)
         booking.setCreatedBy(username);
-        return bookingService.addOrUpdateBookInfo(booking);
+        return bookingService.addOrUpdateBookInfo(booking); // add a new booking into db
     }
 
-    /** Update an existing booking */
-    @PutMapping("/bookings/{id}/update")
-    public BookInfo updateBooking(@Valid @RequestBody BookInfo updatedBooking,
-                                  @PathVariable Long id,
-                                  Authentication authentication) {
-        String username = authentication.getName();
-
-        return bookingService.getBookingById(id).map(existingBooking -> {
-            // Only allow owner or admin to update
-            boolean isAdmin = authentication.getAuthorities().stream()
-                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-
-            if (!isAdmin && !existingBooking.getCreatedBy().equals(username)) {
-                throw new RuntimeException("Unauthorized to update this booking");
-            }
-
-            existingBooking.setName(updatedBooking.getName());
-            existingBooking.setEmail(updatedBooking.getEmail());
-            existingBooking.setPhone(updatedBooking.getPhone());
-            existingBooking.setService(updatedBooking.getService());
-            existingBooking.setBookingDate(updatedBooking.getBookingDate());
-
-            return bookingService.addOrUpdateBookInfo(existingBooking);
-        }).orElseThrow(() -> new RuntimeException("Booking not found"));
+    @PutMapping("/bookings/{id}/update") // edit the information of the booking
+    public BookInfo updateBooking(@Valid @RequestBody BookInfo updated_booking, @PathVariable Long id) {
+        return bookingService.getBookingById(id).map(existing_booking -> {
+            existing_booking.setName(updated_booking.getName());
+            existing_booking.setEmail(updated_booking.getEmail());
+            existing_booking.setPhone(updated_booking.getPhone());
+            existing_booking.setService(updated_booking.getService());
+            existing_booking.setBookingDate(updated_booking.getBookingDate());
+            return bookingService.addOrUpdateBookInfo(existing_booking);
+        }).orElseThrow();
     }
-
-    /** Delete a booking */
+    //delete bookings
     @DeleteMapping("/bookings/{id}")
     public void deleteBooking(@PathVariable Long id, Authentication authentication) {
         String username = authentication.getName();
@@ -82,5 +68,5 @@ public class MainController {
             bookingService.deleteById(id);
         });
     }
-}
 
+}

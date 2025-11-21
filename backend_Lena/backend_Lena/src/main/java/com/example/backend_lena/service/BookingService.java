@@ -1,6 +1,6 @@
 package com.example.backend_lena.service;
 
-//import com.example.backend_lena.emails.EmailServiceImpl;
+import com.example.backend_lena.emails.EmailServiceImpl;
 import com.example.backend_lena.model.BookInfo;
 import com.example.backend_lena.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-//    @Autowired
-//    private EmailServiceImpl emailService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     public BookInfo addOrUpdateBookInfo(BookInfo booking) {
 
         BookInfo saved_bookInfo = bookingRepository.save(booking);
-//        emailService.sendBookingConfirmation(saved_bookInfo.getCreatedBy(), saved_bookInfo);
+        emailService.sendBookingConfirmation(saved_bookInfo.getCreatedBy(), saved_bookInfo);
         return saved_bookInfo;
     }
 

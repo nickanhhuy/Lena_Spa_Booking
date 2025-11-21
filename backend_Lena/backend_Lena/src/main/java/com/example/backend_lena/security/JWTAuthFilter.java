@@ -58,7 +58,5 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-        System.out.println("JWT received: " + token);
-        System.out.println("Username extracted: " + username);
     }
 }
