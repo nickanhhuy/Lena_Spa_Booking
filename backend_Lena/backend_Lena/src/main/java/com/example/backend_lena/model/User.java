@@ -2,16 +2,19 @@ package com.example.backend_lena.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -40,6 +43,7 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
+    @Override
 
     public String getUsername() {
         return username;
@@ -49,6 +53,7 @@ public class User implements UserDetails {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -71,46 +76,35 @@ public class User implements UserDetails {
     }
 
     public void setRole(String role) {
-        if (!role.startsWith("ROLE_")) {
-            this.role = "ROLE_" + role.toUpperCase();
-        } else {
-            this.role = role.toUpperCase();
-        }
+        this.role = role.startsWith("ROLE_")
+                ? role.toUpperCase()
+                : "ROLE_" + role.toUpperCase();
     }
-
-    public boolean isAdmin() {
-        return "ROLE_ADMIN".equalsIgnoreCase(this.role);
-    }
-
-    public boolean isUser() {
-        return "ROLE_USER".equalsIgnoreCase(this.role);
-    }
+//
+//    public boolean isAdmin() {
+//        return "ROLE_ADMIN".equalsIgnoreCase(this.role);
+//    }
+//
+//    public boolean isUser() {
+//        return "ROLE_USER".equalsIgnoreCase(this.role);
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(() -> this.role);
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-
+    public boolean isEnabled() { return true; }
 }
+
 

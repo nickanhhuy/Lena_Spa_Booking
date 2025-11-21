@@ -16,12 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-
 public class AuthController {
 
     @Autowired
@@ -36,49 +36,56 @@ public class AuthController {
     @Autowired
     private JWTUtil jwtUtil;
 
-    // Register API endpoint
+    /** Register an account */
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-        if (existingUser.isPresent()) { // check the availability of username
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Username already exists"));
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // encrypted the password for safe security
-        user.setRole("USER"); // set 'user' role for every user who can only see their own booking
-        userRepository.save(user); // then create a new account for the user and send to database
-        return ResponseEntity.ok("User registered successfully");
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
-    // Login API endpoint
+    /** Login in with correct authentication*/
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
             );
 
-            // Generate JWT token
             String token = jwtUtil.generateToken((UserDetails) authentication.getPrincipal());
-            return ResponseEntity.ok(token);
+
+            return ResponseEntity.ok(Map.of("token", token));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Invalid credentials"));
         }
     }
 
-    // check the current session of the user who just logged in ( this endpoint is used to debug whether correct user in the session)
+    /** CURRENT USER */
     @GetMapping("/current-user")
-    public ResponseEntity<String> getCurrentUser(Authentication authentication) {
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
-            return ResponseEntity.ok(authentication.getName());
+            return ResponseEntity.ok(Map.of("username", authentication.getName()));
         } else {
-            return ResponseEntity.ok("anonymousUser");
+            return ResponseEntity.ok(Map.of("username", "anonymousUser"));
         }
     }
-    // logout endpoint
+
+    /** log out */
     @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public ResponseEntity<?> logout() {
         SecurityContextHolder.clearContext();
-        return ResponseEntity.ok("Logout successful");
+        return ResponseEntity.ok(Map.of("message", "Logout successful"));
     }
 }
+
 
