@@ -19,7 +19,6 @@ public class BookingService {
     private EmailServiceImpl emailService;
 
     public BookInfo addOrUpdateBookInfo(BookInfo booking) {
-
         BookInfo saved_bookInfo = bookingRepository.save(booking);
         emailService.sendBookingConfirmation(saved_bookInfo.getCreatedBy(), saved_bookInfo);
         return saved_bookInfo;

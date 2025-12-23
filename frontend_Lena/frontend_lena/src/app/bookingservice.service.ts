@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookingService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api';
 
   constructor(private http: HttpClient) {}
 

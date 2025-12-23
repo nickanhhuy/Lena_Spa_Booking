@@ -43,7 +43,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // connect to frontend Angular side
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com")); // connect to frontend Angular side
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Cookie"));
         configuration.setAllowCredentials(true);

@@ -27,7 +27,7 @@ export class AppComponent {
   }
 
   logout(): void {
-  fetch('http://localhost:8080/api/auth/logout', {
+  fetch('http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api/auth/logout', {
     method: 'POST',
     credentials: 'include'
   }).then(() => {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private baseUrl = 'http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api/auth';
 
   constructor(private http: HttpClient, private router: Router) {}
 

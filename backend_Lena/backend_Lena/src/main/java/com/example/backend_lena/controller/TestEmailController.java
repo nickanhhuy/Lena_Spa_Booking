@@ -13,9 +13,9 @@ public class TestEmailController {
     @Autowired
     private EmailTestService emailTestService;
 
-    @GetMapping
+    @GetMapping("/get")
     public String sendTest() {
         emailTestService.sendTestEmail("huynguyen.study3054@gmail.com"); // replace with any email you can check
-        return "Test email request sent!";
+        return "test";
     }
 }
