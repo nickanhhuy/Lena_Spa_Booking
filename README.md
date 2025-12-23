@@ -12,7 +12,7 @@ Lena Beauty Spa is an enterprise-grade appointment booking and management platfo
 
 ## System Architecture
 
-![AWS Cloud Architecture](LenaAWS-_drawio.png)
+![AWS Cloud Architecture](LenaSpa_AWS.drawio.png)
 
 The application follows a three-tier architecture pattern deployed on Amazon Web Services, ensuring scalability, reliability, and security.
 
