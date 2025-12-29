@@ -1,15 +1,62 @@
-<h2>Sign Up</h2>
-<form (ngSubmit)="register()">
-  <label>Username:</label>
-  <input [(ngModel)]="user.username" name="username" required />
-  <br />
-  <label>Password:</label>
-  <input type="password" [(ngModel)]="user.password" name="password" required />
-  <br />
-  <button type="submit">Sign Up</button>
-</form>
-<p>{{ message }}</p>
-<p>
-  Already have an account? <a routerLink="/app-login">Log In</a>
-</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Create Account</h2>
+      <p>Sign up to start your beauty journey</p>
+    </div>
+    
+    <form (ngSubmit)="register()" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          id="username"
+          type="text" 
+          [(ngModel)]="user.username" 
+          name="username" 
+          placeholder="Choose a username"
+          required 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          id="email"
+          type="email" 
+          [(ngModel)]="user.email" 
+          name="email" 
+          placeholder="Enter your email"
+          required 
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          id="password"
+          type="password" 
+          [(ngModel)]="user.password" 
+          name="password" 
+          placeholder="Create a strong password"
+          required 
+        />
+      </div>
+      
+      <div class="error-message" *ngIf="message && message.includes('failed')">
+        {{ message }}
+      </div>
+      
+      <div class="success-message" *ngIf="message && !message.includes('failed')">
+        {{ message }}
+      </div>
+      
+      <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+    
+    <div class="auth-footer">
+      <p>Already have an account?</p>
+      <a routerLink="/app-login">Sign In</a>
+    </div>
+  </div>
+</div>
 

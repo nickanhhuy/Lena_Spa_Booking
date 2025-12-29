@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookingService {
-  private apiUrl = 'http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api';
+  private apiUrl = 'http://localhost:5000/api';
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +26,12 @@ export class BookingService {
 
   getByEmail(email: string): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.apiUrl}/user?email=${email}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getAvailableSlots(date: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/bookings/available-slots?date=${date}`, {
       headers: this.getAuthHeaders()
     });
   }

@@ -8,15 +8,23 @@ import { AuthService } from './auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, BookingFormComponent, BookingListComponent, RouterModule , NgIf],
+  imports: [RouterOutlet, BookingFormComponent, BookingListComponent, RouterModule, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 
 export class AppComponent {
   title = 'Lena Beauty Spa';
-  constructor(private router: Router, private authService : AuthService ) {}
+
+  constructor(
+    public router: Router, 
+    private authService: AuthService
+  ) {}
  
+  shouldShowHeader(): boolean {
+    const currentUrl = this.router.url;
+    return !currentUrl.includes('/app-login') && !currentUrl.includes('/app-signup');
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('loggedInUser');
@@ -27,14 +35,14 @@ export class AppComponent {
   }
 
   logout(): void {
-  fetch('http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api/auth/logout', {
-    method: 'POST',
-    credentials: 'include'
-  }).then(() => {
-    console.log("Before clearing: ", localStorage.getItem('loggedInUser'));
-    localStorage.removeItem('loggedInUser');
-    console.log("After logout: ", localStorage.getItem('loggedInUser'));
-    this.router.navigate(['/app-login']);
-  });
-}
+    fetch('http://localhost:5000/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    }).then(() => {
+      console.log("Before clearing: ", localStorage.getItem('loggedInUser'));
+      localStorage.removeItem('loggedInUser');
+      console.log("After logout: ", localStorage.getItem('loggedInUser'));
+      this.router.navigate(['/app-login']);
+    });
+  }
 }

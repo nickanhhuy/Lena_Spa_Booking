@@ -2,82 +2,202 @@
     background-image: url('../../images/spabg.jpg');
     background-size: cover;
     background-position: center;
-    min-height: auto;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 40px;
-    background-color: #a8c3a0c0;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(38, 5, 5, 0.619);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-height: 95vh;
+    overflow-y: auto;
 }
 
 .container h2 {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #2a5d2c;
+    margin-bottom: 4px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
 }
 
-.container .name_label,
-.container .email_label,
-.container .phone_label,
-.container .service_label,
-.container .date_label,
-.container .time_label {
-    margin-bottom: 20px;
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.form-group {
+    margin-bottom: 12px;
 }
 
 .container label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     font-weight: 600;
-    font-size: 18px;
-    color: #333;
+    font-size: 12px;
+    color: #2c3e50;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 2px;
 }
 
 .container input.form-control,
 .container select.form-control {
     width: 100%;
-    padding: 10px 12px;
-    font-size: 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s ease;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    border: 2px solid #ecf0f1;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    box-sizing: border-box;
 }
 
 .container input.form-control:focus,
 .container select.form-control:focus {
     outline: none;
-    border-color: #20622a;
-    box-shadow: 0 0 5px rgba(51, 122, 214, 0.3);
+    border-color: #639a3e;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(99, 154, 62, 0.1);
+}
+
+.container input.form-control.ng-invalid.ng-touched,
+.container select.form-control.ng-invalid.ng-touched {
+    border-color: #e74c3c;
+}
+
+.validation-message {
+    margin-top: 4px;
+}
+
+.validation-message small {
+    color: #e74c3c;
+    font-size: 12px;
+    display: block;
+}
+
+.help-text {
+    display: block;
+    margin-top: 4px;
+    color: #95a5a6;
+    font-size: 12px;
+}
+
+.alert {
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 .container button[type="submit"] {
     width: 100%;
     padding: 12px;
-    font-size: 18px;
-    background-color: #2f672a;
+    font-size: 15px;
+    background-color: #639a3e;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    cursor: pointer;
 }
 
-.container button[type="submit"]:hover {
-    background-color: #255bb5;
+.container button[type="submit"]:hover:not(:disabled) {
+    background-color: #527f32;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 154, 62, 0.3);
+}
+
+.container button[type="submit"]:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 25px 20px;
+    }
+    
+    .container h2 {
+        font-size: 24px;
+    }
+}
+
+/* Time Slot Styles */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.time-slot-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    border: 2px solid #ecf0f1;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.time-slot-btn:hover {
+    background-color: #e8f5e9;
+    border-color: #639a3e;
+    transform: translateY(-1px);
+}
+
+.time-slot-btn.selected {
+    background-color: #639a3e;
+    color: white;
+    border-color: #639a3e;
+}
+
+.loading {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.no-slots {
+    text-align: center;
+    color: #e74c3c;
+    font-size: 12px;
+    padding: 10px;
+    background: #fff3cd;
+    border-radius: 8px;
+    margin-top: 8px;
 }

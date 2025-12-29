@@ -9,9 +9,10 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
-  user = { username: '', password: '' };
+  user = { username: '', email: '', password: '' };
   message = '';
 
   constructor(private authService: AuthService, private router: Router) {}

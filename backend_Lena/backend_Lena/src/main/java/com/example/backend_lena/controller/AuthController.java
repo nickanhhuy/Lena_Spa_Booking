@@ -1,5 +1,8 @@
 package com.example.backend_lena.controller;
 
+import com.example.backend_lena.dto.PasswordChangeRequest;
+import com.example.backend_lena.dto.ProfileUpdateRequest;
+import com.example.backend_lena.dto.UserProfileResponse;
 import com.example.backend_lena.model.User;
 import com.example.backend_lena.repository.UserRepository;
 import com.example.backend_lena.security.JWTUtil;
@@ -85,6 +88,77 @@ public class AuthController {
     public ResponseEntity<String> logout() {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok("Logout successful");
+    }
+
+    // Get user profile
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        
+        User user = userOpt.get();
+        UserProfileResponse profile = new UserProfileResponse(
+            user.getUsername(),
+            user.getEmail(),
+            user.getPhone(),
+            user.getAvatarUrl(),
+            user.getRole()
+        );
+        
+        return ResponseEntity.ok(profile);
+    }
+
+    // Update user profile
+    @PutMapping("/profile")
+    public ResponseEntity<String> updateProfile(@RequestBody ProfileUpdateRequest request, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        
+        User user = userOpt.get();
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getPhone() != null) {
+            user.setPhone(request.getPhone());
+        }
+        if (request.getAvatarUrl() != null) {
+            user.setAvatarUrl(request.getAvatarUrl());
+        }
+        
+        userRepository.save(user);
+        return ResponseEntity.ok("Profile updated successfully");
+    }
+
+    // Change password
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody PasswordChangeRequest request, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        
+        User user = userOpt.get();
+        
+        // Verify current password
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Current password is incorrect");
+        }
+        
+        // Update to new password
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        
+        return ResponseEntity.ok("Password changed successfully");
     }
 }
 

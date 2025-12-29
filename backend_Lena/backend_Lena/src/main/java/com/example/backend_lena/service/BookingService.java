@@ -6,8 +6,13 @@ import com.example.backend_lena.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -38,5 +43,34 @@ public class BookingService {
 
     public List<BookInfo> getByCreatedBy(String createdBy) {
         return bookingRepository.findByCreatedBy(createdBy);
+    }
+
+    public List<String> getAvailableTimeSlots(LocalDate date) {
+        // Define business hours: 9 AM to 6 PM, 1-hour slots
+        List<String> allSlots = new ArrayList<>();
+        for (int hour = 9; hour <= 17; hour++) {
+            allSlots.add(String.format("%02d:00", hour));
+        }
+
+        // Get all bookings for the specified date
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        
+        List<BookInfo> bookingsOnDate = bookingRepository.findAll().stream()
+                .filter(booking -> {
+                    LocalDateTime bookingDateTime = booking.getBookingDate();
+                    return bookingDateTime != null && 
+                           !bookingDateTime.isBefore(startOfDay) && 
+                           !bookingDateTime.isAfter(endOfDay);
+                })
+                .collect(Collectors.toList());
+
+        // Remove booked time slots
+        List<String> bookedSlots = bookingsOnDate.stream()
+                .map(booking -> String.format("%02d:00", booking.getBookingDate().getHour()))
+                .collect(Collectors.toList());
+
+        allSlots.removeAll(bookedSlots);
+        return allSlots;
     }
 }

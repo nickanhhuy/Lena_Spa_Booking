@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,6 +34,11 @@ public class MainController {
         }
     }
 
+    @GetMapping("/bookings/available-slots")
+    public List<String> getAvailableSlots(@RequestParam String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return bookingService.getAvailableTimeSlots(localDate);
+    }
 
     @PostMapping("/bookings/addbooking") // book a new appointment
     public BookInfo addBooking(@Valid @RequestBody BookInfo booking, Authentication authentication) {

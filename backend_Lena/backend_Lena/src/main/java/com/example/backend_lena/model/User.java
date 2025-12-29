@@ -26,6 +26,10 @@ public class User implements UserDetails {
 
     private String role; // "ADMIN" or "USER"
 
+    private String phone;
+
+    private String avatarUrl;
+
 
     public User() {}
 
@@ -68,6 +72,22 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
 

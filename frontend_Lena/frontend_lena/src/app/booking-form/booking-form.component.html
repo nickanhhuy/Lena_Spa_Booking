@@ -1,43 +1,125 @@
 <div class="background-container">  
   <div class="container">
     <h2>Book Your Appointment</h2>
+    <p class="subtitle">Fill in the details below to schedule your spa treatment</p>
+    
     <form (ngSubmit)="submitBooking()" #form="ngForm">
-      <div class="name_label">
-        <label>Name:</label>
-        <input type="text" class="form-control" [(ngModel)]="booking.name" name="name" placeholder="Your Name" required>
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Full Name <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="name"
+          class="form-control" 
+          [(ngModel)]="booking.name" 
+          name="name" 
+          placeholder="Enter your full name" 
+          required
+          minlength="2"
+          #nameField="ngModel">
+        <div class="validation-message" *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)">
+          <small *ngIf="nameField.errors?.['required']">Name is required</small>
+          <small *ngIf="nameField.errors?.['minlength']">Name must be at least 2 characters</small>
+        </div>
       </div>
 
-      <div class="email_label">
-        <label>Email:</label>
-        <input type="email" class="form-control" [(ngModel)]="booking.email" name="email" placeholder="example@gmail.com" required>
+      <!-- Phone Field -->
+      <div class="form-group">
+        <label for="phone">Phone Number <span class="required">*</span></label>
+        <input 
+          type="tel" 
+          id="phone"
+          class="form-control" 
+          [(ngModel)]="booking.phone" 
+          name="phone" 
+          placeholder="e.g., 0123456789" 
+          required
+          pattern="[0-9]{10,11}"
+          #phoneField="ngModel">
+        <div class="validation-message" *ngIf="phoneField.invalid && (phoneField.dirty || phoneField.touched)">
+          <small *ngIf="phoneField.errors?.['required']">Phone number is required</small>
+          <small *ngIf="phoneField.errors?.['pattern']">Please enter a valid 10-11 digit phone number</small>
+        </div>
       </div>
 
-      <div class="phone_label">
-        <label>Phone:</label>
-        <input type="tel" class="form-control" [(ngModel)]="booking.phone" name="phone" placeholder="Phone Number">
+      <!-- Service Field -->
+      <div class="form-group">
+        <label for="service">Select Service <span class="required">*</span></label>
+        <select 
+          id="service"
+          class="form-control" 
+          [(ngModel)]="booking.service" 
+          name="service" 
+          required
+          #serviceField="ngModel">
+          <option value="" disabled>Choose a service...</option>
+          <option value="basic-skincare">Chăm sóc da cơ bản</option>
+          <option value="deep-skincare">Chăm sóc da chuyên sâu</option>
+          <option value="acne-treatment">Chăm sóc da mụn</option>
+          <option value="detox-treatment">Chăm sóc Thải Độc Da</option>
+          <option value="nano-whitening">Cấy trắng Nano</option>
+          <option value="skin-tightening">Căng bóng</option>
+          <option value="advanced-treatment">Cấy trắng và căng bóng chuyên sâu</option>
+          <option value="ageloc-massage">Chăm sóc Massage Nâng cơ Ageloc</option>
+        </select>
+        <div class="validation-message" *ngIf="serviceField.invalid && (serviceField.dirty || serviceField.touched)">
+          <small *ngIf="serviceField.errors?.['required']">Please select a service</small>
+        </div>
       </div>
 
-      <div class="service_label">
-        <label>Service:</label>
-          <select class="form-control" [(ngModel)]="booking.service" name="service" required>
-            <option value=""> Select a service </option>
-            <option>Chăm sóc da cơ bản</option>
-            <option>Chăm sóc da chuyên sâu</option>
-            <option>Chăm sóc da mụn</option>
-            <option>Chăm sóc Thải Độc Da</option>
-            <option>Cấy trăng Nano</option>
-            <option>Căng bóng</option>
-            <option>Cấy trắng và căn bóng chuyên sâu</option>
-            <option>Chăm sóc Massage Nâng cơ Ageloc</option>
-          </select>
+      <!-- Date Picker -->
+      <div class="form-group">
+        <label for="date">Select Date <span class="required">*</span></label>
+        <input 
+          type="date" 
+          id="date"
+          class="form-control" 
+          [(ngModel)]="selectedDate" 
+          name="date" 
+          required
+          [min]="minDate"
+          (change)="onDateChange()"
+          #dateField="ngModel">
+        <div class="validation-message" *ngIf="dateField.invalid && (dateField.dirty || dateField.touched)">
+          <small *ngIf="dateField.errors?.['required']">Please select a date</small>
+        </div>
       </div>
 
-      <div class="date_label">
-        <label>Date & Time:</label>
-        <input type="datetime-local" class="form-control" [(ngModel)]="booking.bookingDate" name="dateTime" required>
+      <!-- Time Slots -->
+      <div class="form-group" *ngIf="selectedDate">
+        <label>Available Time Slots <span class="required">*</span></label>
+        <div class="loading" *ngIf="loadingSlots">Loading available times...</div>
+        <div class="time-slots" *ngIf="!loadingSlots && availableSlots.length > 0">
+          <button 
+            type="button"
+            *ngFor="let slot of availableSlots" 
+            class="time-slot-btn"
+            [class.selected]="selectedTime === slot"
+            (click)="selectTimeSlot(slot)">
+            {{ slot }}
+          </button>
+        </div>
+        <div class="no-slots" *ngIf="!loadingSlots && availableSlots.length === 0">
+          No available slots for this date. Please choose another day.
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Book</button>
+      <!-- Success/Error Messages -->
+      <div class="alert alert-success" *ngIf="successMessage && !successMessage.includes('wrong')">
+        ✓ {{ successMessage }}
+      </div>
+      <div class="alert alert-error" *ngIf="successMessage && successMessage.includes('wrong')">
+        ✗ {{ successMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="!form.valid || !selectedTime">
+        <span *ngIf="form.valid && selectedTime">Book Appointment</span>
+        <span *ngIf="!form.valid || !selectedTime">Please fill all required fields</span>
+      </button>
     </form>
   </div>
 </div>

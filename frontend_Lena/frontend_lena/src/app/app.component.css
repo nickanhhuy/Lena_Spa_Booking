@@ -1,61 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+}
+
+.app-wrapper {
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+/* Header with Navigation */
 .app-header {
-    background: #9fb799;
-    padding: 10px 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
-}
-.app-container {
-    text-align: center;
-    margin: 65px;
-    padding: 5px;
-}
-.app-container p {
-    font-style: italic;
-    font-weight: bold;
-    font-size: 25px;
+    background: linear-gradient(135deg, #a8c5a0 0%, #8fae88 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.app-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+/* Navigation */
+.app-navbar {
+    padding: 18px 0;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.nav-logo a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Navigation Links - Center */
+.nav-links {
+    display: flex;
+    gap: 40px;
+    flex: 1;
     justify-content: center;
-    margin: 20px 10px;
-    align-items: center;   
-    padding: 10px; 
-    gap: 20px;
-    font-weight: bold;
-    z-index: 1000;
 }
 
-.menu-links a {
+.nav-links a {
     text-decoration: none;
-    color: black;
-    font-size: 20px;
-    margin: 20px;
-    transition: color 0.2s ease, border-bottom 0.2s ease;
-    padding-bottom: 3px;
-    border-bottom: 2px solid transparent;
-}
-.menu-links a:hover {
-    color: #639a3e;
-    border-bottom: 3px solid #639a3e;
-}
-
-
-.login-signup a {
-    text-decoration: none;
+    color: #2c3e50;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
     position: relative;
-    background-color: #639a3e;
-    padding: 10px 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color:blanchedalmond;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
 }
-.login-signup a:hover {
-    color: #1f3e0b;
+
+.nav-links a:hover {
+    color: #639a3e;
+}
+
+/* Auth Section - Right */
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-auth {
+    background: #639a3e;
+    color: white;
+    padding: 10px 28px;
+    border-radius: 25px;
+    border: 2px solid #639a3e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-auth:hover {
+    background: #527f32;
+    border-color: #527f32;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-greeting {
+    color: #2c3e50;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.btn-logout {
+    background: #639a3e;
+    color: white;
+    border: 2px solid #639a3e;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: #527f32;
+    border-color: #527f32;
+}
+
+/* Main Content */
+.app-main {
+    min-height: calc(100vh - 80px);
+    background: #f5f5f5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .nav-links {
+        gap: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
 }
