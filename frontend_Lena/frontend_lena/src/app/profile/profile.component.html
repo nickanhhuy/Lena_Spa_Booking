@@ -1,0 +1,152 @@
+<div class="background-container">
+  <div class="container">
+    <h2>My Profile</h2>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'info'"
+        (click)="switchTab('info')">
+        Profile Info
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'password'"
+        (click)="switchTab('password')">
+        Change Password
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div class="alert alert-success" *ngIf="message && messageType === 'success'">
+      ✓ {{ message }}
+    </div>
+    <div class="alert alert-error" *ngIf="message && messageType === 'error'">
+      ✗ {{ message }}
+    </div>
+
+    <!-- Profile Info Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'info'">
+      <form (ngSubmit)="updateProfile()" #profileForm="ngForm">
+        <!-- Avatar -->
+        <div class="avatar-section">
+          <div class="avatar-preview">
+            <img 
+              [src]="profile.avatarUrl || 'https://via.placeholder.com/120'" 
+              alt="Avatar">
+            <div class="avatar-loading" *ngIf="uploadingAvatar">
+              <span>Uploading...</span>
+            </div>
+          </div>
+          <div class="avatar-upload">
+            <label for="avatar" class="upload-btn" [class.disabled]="uploadingAvatar">
+              {{ uploadingAvatar ? 'Uploading...' : 'Upload Photo' }}
+            </label>
+            <input 
+              type="file" 
+              id="avatar" 
+              accept="image/*"
+              (change)="onAvatarChange($event)"
+              [disabled]="uploadingAvatar"
+              style="display: none;">
+            <small class="help-text">JPG, PNG or GIF (Max 2MB)</small>
+          </div>
+        </div>
+
+        <!-- Username (Read-only) -->
+        <div class="form-group">
+          <label>Username</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            [value]="profile.username" 
+            disabled>
+          <small class="help-text">Username cannot be changed</small>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email"
+            class="form-control" 
+            [(ngModel)]="profile.email" 
+            name="email"
+            required>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phone"
+            class="form-control" 
+            [(ngModel)]="profile.phone" 
+            name="phone"
+            placeholder="e.g., 0123456789">
+        </div>
+
+        <!-- Role (Read-only) -->
+        <div class="form-group">
+          <label>Role</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            [value]="profile.role" 
+            disabled>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">
+          Update Profile
+        </button>
+      </form>
+    </div>
+
+    <!-- Change Password Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'password'">
+      <form (ngSubmit)="changePassword()" #passwordForm="ngForm">
+        <div class="form-group">
+          <label for="currentPassword">Current Password <span class="required">*</span></label>
+          <input 
+            type="password" 
+            id="currentPassword"
+            class="form-control" 
+            [(ngModel)]="passwordChange.currentPassword" 
+            name="currentPassword"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password <span class="required">*</span></label>
+          <input 
+            type="password" 
+            id="newPassword"
+            class="form-control" 
+            [(ngModel)]="passwordChange.newPassword" 
+            name="newPassword"
+            required
+            minlength="6">
+          <small class="help-text">At least 6 characters</small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password <span class="required">*</span></label>
+          <input 
+            type="password" 
+            id="confirmPassword"
+            class="form-control" 
+            [(ngModel)]="passwordChange.confirmPassword" 
+            name="confirmPassword"
+            required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid">
+          Change Password
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

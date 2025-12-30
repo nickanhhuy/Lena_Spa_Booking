@@ -21,11 +21,25 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private EmailServiceImpl emailService;
+    private ResendEmailService resendEmailService;
 
     public BookInfo addOrUpdateBookInfo(BookInfo booking) {
         BookInfo saved_bookInfo = bookingRepository.save(booking);
-        emailService.sendBookingConfirmation(saved_bookInfo.getCreatedBy(), saved_bookInfo);
+        
+        // Send confirmation email to customer
+        try {
+            resendEmailService.sendBookingConfirmation(saved_bookInfo.getCreatedBy(), saved_bookInfo);
+        } catch (Exception e) {
+            System.err.println("Failed to send booking confirmation: " + e.getMessage());
+        }
+        
+        // Send notification email to admin
+        try {
+            resendEmailService.sendAdminBookingNotification(saved_bookInfo);
+        } catch (Exception e) {
+            System.err.println("Failed to send admin booking notification: " + e.getMessage());
+        }
+        
         return saved_bookInfo;
     }
 

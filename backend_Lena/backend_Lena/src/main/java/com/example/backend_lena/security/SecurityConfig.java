@@ -63,7 +63,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // stateless JWT
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // public auth routes
-                        .requestMatchers("/test-email").permitAll()
+                        .requestMatchers("/test-email/**").permitAll() // test email endpoint
+                        .requestMatchers("/uploads/**").permitAll() // uploaded files
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/bookings/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())

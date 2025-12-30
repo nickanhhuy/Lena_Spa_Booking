@@ -1,0 +1,40 @@
+{
+  "NAV": {
+    "HOME": "TRANG CHỦ",
+    "BOOK_NOW": "ĐẶT LỊCH",
+    "MY_BOOKING": "LỊCH CỦA TÔI",
+    "CONTACT": "LIÊN HỆ",
+    "LOGIN_SIGNUP": "ĐĂNG NHẬP / ĐĂNG KÝ",
+    "LOGOUT": "ĐĂNG XUẤT",
+    "HI": "Xin chào"
+  },
+  "LOGIN": {
+    "TITLE": "Chào Mừng Trở Lại",
+    "SUBTITLE": "Đăng nhập để tiếp tục",
+    "USERNAME": "Tên đăng nhập",
+    "PASSWORD": "Mật khẩu",
+    "USERNAME_PLACEHOLDER": "Nhập tên đăng nhập",
+    "PASSWORD_PLACEHOLDER": "Nhập mật khẩu",
+    "SIGN_IN": "Đăng Nhập",
+    "NO_ACCOUNT": "Chưa có tài khoản?",
+    "CREATE_ACCOUNT": "Tạo Tài Khoản"
+  },
+  "SIGNUP": {
+    "TITLE": "Tạo Tài Khoản",
+    "SUBTITLE": "Đăng ký để bắt đầu hành trình làm đẹp",
+    "USERNAME": "Tên đăng nhập",
+    "EMAIL": "Email",
+    "PASSWORD": "Mật khẩu",
+    "USERNAME_PLACEHOLDER": "Chọn tên đăng nhập",
+    "EMAIL_PLACEHOLDER": "Nhập email của bạn",
+    "PASSWORD_PLACEHOLDER": "Tạo mật khẩu mạnh",
+    "CREATE_ACCOUNT": "Tạo Tài Khoản",
+    "HAVE_ACCOUNT": "Đã có tài khoản?",
+    "SIGN_IN": "Đăng Nhập"
+  },
+  "BRAND": {
+    "NAME": "Lena Booking",
+    "TITLE": "Lena Beauty Spa",
+    "TAGLINE": "Luôn tự tin với chính mình"
+  }
+}

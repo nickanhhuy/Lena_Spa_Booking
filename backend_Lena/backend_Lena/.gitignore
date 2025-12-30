@@ -36,3 +36,7 @@ build/
 .env
 .env.local
 .env.*.local
+
+### Sensitive Configuration ###
+src/main/resources/application.properties
+uploads/

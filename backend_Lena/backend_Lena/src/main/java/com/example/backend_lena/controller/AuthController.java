@@ -6,6 +6,7 @@ import com.example.backend_lena.dto.UserProfileResponse;
 import com.example.backend_lena.model.User;
 import com.example.backend_lena.repository.UserRepository;
 import com.example.backend_lena.security.JWTUtil;
+import com.example.backend_lena.service.ResendEmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class AuthController {
     @Autowired
     private JWTUtil jwtUtil;
 
+    @Autowired
+    private ResendEmailService resendEmailService;
+
     // Register API endpoint
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -51,6 +55,29 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword())); // encrypted the password for safe security
         user.setRole("USER"); // set 'user' role for every user who can only see their own booking
         userRepository.save(user); // then create a new account for the user and send to database
+        
+        // Send welcome email to the new user (only if email is provided and valid)
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            try {
+                resendEmailService.sendWelcomeEmail(user.getEmail(), user.getUsername());
+            } catch (Exception e) {
+                System.err.println("Failed to send welcome email: " + e.getMessage());
+                // Continue with registration even if email fails
+            }
+        }
+        
+        // Send admin notification
+        try {
+            resendEmailService.sendAdminRegistrationNotification(
+                user.getUsername(), 
+                user.getEmail(), 
+                user.getPhone()
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to send admin notification: " + e.getMessage());
+            // Continue with registration even if notification fails
+        }
+        
         return ResponseEntity.ok("User registered successfully");
     }
 

@@ -14,11 +14,11 @@ public class EmailServiceImpl {
 
     public void sendBookingConfirmation(String to, BookInfo book_information) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("huynguyen.study3054@gmail.com"); // optional
+        message.setFrom("xuanhoang2434@gmail.com");
         message.setTo(to);
         message.setSubject("Appointment Confirmation");
         message.setText(buildAppointmentMessage(book_information));
-        emailSender.send(message); // works out of the box
+        emailSender.send(message);
     }
     private String buildAppointmentMessage(BookInfo book_information) {
         return "Hi,\n\n" +
