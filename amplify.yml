@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend_Lena/frontend_lena
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: frontend_Lena/frontend_lena/dist/frontend_lena/browser
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - frontend_Lena/frontend_lena/node_modules/**/*
