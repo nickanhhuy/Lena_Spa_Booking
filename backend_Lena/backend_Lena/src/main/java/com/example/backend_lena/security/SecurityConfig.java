@@ -45,7 +45,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:4200", 
-            "http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com",
+            "https://lenaspabooking.site",
+            "https://www.lenaspabooking.site",
             "https://main.d3lwy26c5y9ccr.amplifyapp.com"
         )); // connect to frontend Angular side
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
