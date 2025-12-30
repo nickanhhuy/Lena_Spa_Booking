@@ -4,6 +4,7 @@ import { BookingFormComponent } from './booking-form/booking-form.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
 import { NgIf } from '@angular/common';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +36,7 @@ export class AppComponent {
   }
 
   logout(): void {
-    fetch('http://localhost:5000/api/auth/logout', {
+    fetch(`${environment.apiUrl}/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     }).then(() => {

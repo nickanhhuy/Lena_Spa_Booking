@@ -43,7 +43,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com")); // connect to frontend Angular side
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:4200", 
+            "http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com",
+            "https://main.d3lwy26c5y9ccr.amplifyapp.com"
+        )); // connect to frontend Angular side
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Cookie"));
         configuration.setAllowCredentials(true);
@@ -62,6 +66,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // stateless JWT
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/health").permitAll() // health check endpoint
                         .requestMatchers("/api/auth/**").permitAll() // public auth routes
                         .requestMatchers("/test-email/**").permitAll() // test email endpoint
                         .requestMatchers("/uploads/**").permitAll() // uploaded files

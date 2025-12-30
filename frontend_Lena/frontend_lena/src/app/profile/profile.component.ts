@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -45,7 +46,7 @@ export class ProfileComponent implements OnInit {
         this.profile = data;
         // If avatar URL is relative, make it absolute
         if (this.profile.avatarUrl && !this.profile.avatarUrl.startsWith('http')) {
-          this.profile.avatarUrl = 'http://localhost:5000' + this.profile.avatarUrl;
+          this.profile.avatarUrl = environment.apiUrl.replace('/api', '') + this.profile.avatarUrl;
         }
       },
       error: (err) => {
@@ -119,13 +120,13 @@ export class ProfileComponent implements OnInit {
     formData.append('file', file);
 
     const token = localStorage.getItem('jwtToken');
-    this.http.post<string>('http://localhost:5000/api/upload/avatar', formData, {
+    this.http.post<string>(`${environment.apiUrl}/upload/avatar`, formData, {
       headers: { 'Authorization': `Bearer ${token}` },
       responseType: 'text' as 'json'
     }).subscribe({
       next: (fileUrl) => {
         // Update profile with new avatar URL
-        this.profile.avatarUrl = 'http://localhost:5000' + fileUrl;
+        this.profile.avatarUrl = environment.apiUrl.replace('/api', '') + fileUrl;
         
         // Automatically save the profile
         this.authService.updateProfile({ avatarUrl: fileUrl }).subscribe({
