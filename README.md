@@ -5,11 +5,11 @@
 A production-ready spa appointment booking platform with **2,000+ lines of code** across Java Spring Boot backend and Angular frontend, deployed on AWS with auto-scaling infrastructure serving a live customer base.
 
 **Key Achievements:**
-- ✅ Full-stack development with modern tech stack (Java, Angular, PostgreSQL, AWS)
-- ✅ Production deployment with 99.9% uptime using AWS auto-scaling (2-10 EC2 instances)
-- ✅ Secure authentication with JWT and role-based access control
-- ✅ Real-time email notifications via Resend API
-- ✅ Multi-language support (English/Vietnamese)
+-  Full-stack development with modern tech stack (Java, Angular, PostgreSQL, AWS)
+-  Production deployment with 99.9% uptime using AWS auto-scaling (2-10 EC2 instances)
+-  Secure authentication with JWT and role-based access control
+-  Real-time email notifications via Resend API
+-  Multi-language support (English/Vietnamese)
 
 ## Tech Stack
 
