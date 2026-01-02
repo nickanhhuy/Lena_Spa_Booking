@@ -1,4 +1,4 @@
-# Lena Beauty Spa Management System
+# Lena Beauty Spa Booking System
 
 **Live Site:** [lenaspabooking.site](https://www.lenaspabooking.site)
 
