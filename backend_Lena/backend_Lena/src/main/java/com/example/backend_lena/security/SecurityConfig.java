@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll() // public auth routes
                         .requestMatchers("/test-email/**").permitAll() // test email endpoint
                         .requestMatchers("/uploads/**").permitAll() // uploaded files
+                        .requestMatchers("/api/bookings/available-slots").permitAll() // public access to check availability
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/bookings/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())

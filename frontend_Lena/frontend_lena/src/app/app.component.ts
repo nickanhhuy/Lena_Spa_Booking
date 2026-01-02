@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
 })
 
 export class AppComponent {
-  title = 'Lena Beauty Spa';
+  title = 'Lena Spa Booking';
 
   constructor(
     public router: Router, 

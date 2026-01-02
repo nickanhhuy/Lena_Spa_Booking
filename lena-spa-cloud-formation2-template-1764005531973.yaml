@@ -1,0 +1,380 @@
+---
+Metadata:
+  AWSToolsMetrics:
+    IaC_Generator: "arn:aws:cloudformation:us-east-1:767397747893:generatedTemplate/309856a6-a8da-4313-99a3-e69b56c879fe"
+Parameters:
+  KeyName:
+    Default: "huy"
+    Type: "String"
+    Description: "Name of an existing EC2 KeyPair to enable SSH access"
+Resources:
+  EC2SubnetKI:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      VpcId:
+        Ref: "EC2VPCRj"
+      AvailabilityZoneId: "use1-az4"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.0.1.0/24"
+      Ipv6Native: false
+      Tags:
+      - Value: "public-subnet-spa1"
+        Key: "Name"
+  EC2Volume:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Retain"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-0881c812c0a9fb912"
+      VolumeType: "gp3"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZoneId: "use1-az4"
+      AvailabilityZone: "us-east-1a"
+      Throughput: 125
+      Iops: 3000
+      Tags: []
+  EC2KeyPairHuy:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::KeyPair"
+    DeletionPolicy: "Retain"
+    Properties:
+      KeyName: "huy"
+      KeyType: "rsa"
+      PublicKeyMaterial: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCsRP0AnZBqDAIipjV9kEcOAqLfuCYk4nGeWmaw8mYRgc+RsyaXy2G9vgPDH35s18AOmWvoz1Gwp4+S16nPOkrmJUCTKFEjnnzzhDCwfpAMX+dqkAYPf+rNXNSpcRbw2DzWb5hQuJyHUM0NVutaDISKbyDuIYRP+Kk7+qLeEXHJsCr9wPIJ0i9yQeIosmqLdohvI/DoNDrAaCzWYpLU+hcgCvTCcdzJaQ/OB7q5Dd3szSBf2Q04VhJZNKMC10FjMzi8OAJGXOMX6Mt3zPcpoPIEavS5NS7ZRMcZZkUdsqSgnqdzUAEvjd+qzEodYMkY9nMssZm5ZsxCacGErYS3aZBD\
+        \ huy\n"
+      Tags: []
+  EC2Subnet:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      VpcId:
+        Ref: "EC2VPCRj"
+      AvailabilityZoneId: "use1-az6"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.0.2.0/24"
+      Ipv6Native: false
+      Tags:
+      - Value: "public-subnet-spa2"
+        Key: "Name"
+  CloudWatchAlarmTargetTrackinglenaspabackendasgAlarmHighe6ea12ce6ddb4f199bb9c3fc3df04a29:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanThreshold"
+      Dimensions:
+      - Value: "lena-spa-backend-asg"
+        Name: "AutoScalingGroupName"
+      Period: 60
+      EvaluationPeriods: 3
+      Namespace: "AWS/EC2"
+      OKActions: []
+      AlarmActions:
+      - Ref: "AutoScalingScalingPolicyScalingPolicyf079f4341739462aa0cad80c4eaed484autoScalingGroupNamelenaspabackendasgpolicyNameTargetTrackingPolicy"
+      MetricName: "CPUUtilization"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:767397747893:scalingPolicy:f079f434-1739-462a-a0ca-d80c4eaed484:autoScalingGroupName/lena-spa-backend-asg:policyName/Target\
+        \ Tracking Policy."
+      AlarmName: "TargetTracking-lena-spa-backend-asg-AlarmHigh-e6ea12ce-6ddb-4f19-9bb9-c3fc3df04a29"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Tags: []
+      Threshold: 50
+  EC2Route:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "EC2InternetGatewayB2"
+      VpcEndpointId: "igw-0e49be4777fc80521"
+  EC2VPCRj:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: false
+      Tags:
+      - Value: "lena-spa-vpc"
+        Key: "Name"
+  CloudWatchAlarmTargetTrackinglenaspabackendasgAlarmLowff16fd718a1c44f482187e8a68a926b5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value: "lena-spa-backend-asg"
+        Name: "AutoScalingGroupName"
+      Period: 60
+      EvaluationPeriods: 15
+      Namespace: "AWS/EC2"
+      OKActions: []
+      AlarmActions:
+      - Ref: "AutoScalingScalingPolicyScalingPolicyf079f4341739462aa0cad80c4eaed484autoScalingGroupNamelenaspabackendasgpolicyNameTargetTrackingPolicy"
+      MetricName: "CPUUtilization"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:767397747893:scalingPolicy:f079f434-1739-462a-a0ca-d80c4eaed484:autoScalingGroupName/lena-spa-backend-asg:policyName/Target\
+        \ Tracking Policy."
+      AlarmName: "TargetTracking-lena-spa-backend-asg-AlarmLow-ff16fd71-8a1c-44f4-8218-7e8a68a926b5"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Tags: []
+      Threshold: 35
+  EC2VPC:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "172.31.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags: []
+  EC2VolumeAttachment:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      InstanceId: "i-0f2198a5d6a64d39b"
+      VolumeId: "vol-05b30c2e8f9a5684e"
+      Device: "/dev/xvda"
+  AutoScalingAutoScalingGroupLenaspabackendasg:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      LoadBalancerNames: []
+      ServiceLinkedRoleARN: "arn:aws:iam::767397747893:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+      TargetGroupARNs:
+      - Ref: "ElasticLoadBalancingV2TargetGroupTargetgrouplenaspatg80808674339cc0c784a2"
+      Cooldown: "300"
+      AvailabilityZones:
+      - "us-east-1a"
+      - "us-east-1b"
+      AvailabilityZoneDistribution:
+        CapacityDistributionStrategy: "balanced-best-effort"
+      DesiredCapacity: "0"
+      HealthCheckGracePeriod: 300
+      MetricsCollection: []
+      InstanceLifecyclePolicy:
+        RetentionTriggers:
+          TerminateHookAbandon: "terminate"
+      MaxSize: "4"
+      NewInstancesProtectedFromScaleIn: false
+      MinSize: "0"
+      TerminationPolicies:
+      - "Default"
+      LaunchTemplate:
+        Version: "$Latest"
+        LaunchTemplateName: "lena-spa-backend-template"
+        LaunchTemplateId: "lt-0311448ab224304c0"
+      AutoScalingGroupName: "lena-spa-backend-asg"
+      TrafficSources:
+      - Type: "elbv2"
+        Identifier: "arn:aws:elasticloadbalancing:us-east-1:767397747893:targetgroup/lena-spa-tg-8080/8674339cc0c784a2"
+      VPCZoneIdentifier:
+      - Ref: "EC2Subnet"
+      - Ref: "EC2SubnetKI"
+      CapacityReservationSpecification:
+        CapacityReservationPreference: "default"
+      Tags: []
+      HealthCheckType: "ELB"
+  EC2InstanceSe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Instance"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tenancy: "default"
+      PrivateIpAddress: "10.0.1.27"
+      InstanceInitiatedShutdownBehavior: "stop"
+      BlockDeviceMappings:
+      - Ebs:
+          SnapshotId: "snap-0881c812c0a9fb912"
+          VolumeType: "gp3"
+          Iops: 3000
+          VolumeSize: 8
+          Encrypted: false
+          DeleteOnTermination: true
+        DeviceName: "/dev/xvda"
+      PrivateDnsNameOptions:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      SubnetId:
+        Ref: "EC2SubnetKI"
+      SecurityGroupIds:
+      - "sg-03e5b8379e0af4b4b"
+      EbsOptimized: true
+      DisableApiTermination: false
+      SourceDestCheck: true
+      PlacementGroupName: ""
+      VpcId: "vpc-020e1b42b09c3373f"
+      State:
+        Code: "80"
+        Name: "stopped"
+      NetworkInterfaces:
+      - Ipv6Addresses: []
+        SubnetId:
+          Ref: "EC2SubnetKI"
+        SecondaryPrivateIpAddressCount: 0
+        NetworkInterfaceId:
+          Ref: "EC2NetworkInterface"
+        DeviceIndex: "0"
+      ImageId: "ami-0fa3fe0fa7920f68e"
+      InstanceType: "t3.micro"
+      Monitoring: false
+      Tags:
+      - Value: "backend_lena"
+        Key: "Name"
+      CreditSpecification:
+        CPUCredits: "unlimited"
+  ElasticLoadBalancingV2TargetGroupTargetgrouplenaspatg80808674339cc0c784a2:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      IpAddressType: "ipv4"
+      HealthCheckIntervalSeconds: 30
+      Matcher:
+        HttpCode: "200,401"
+      HealthCheckPath: "/api"
+      Port: 8080
+      Targets: []
+      HealthCheckEnabled: true
+      ProtocolVersion: "HTTP1"
+      UnhealthyThresholdCount: 2
+      HealthCheckTimeoutSeconds: 5
+      Name: "lena-spa-tg-8080"
+      VpcId:
+        Ref: "EC2VPCRj"
+      HealthyThresholdCount: 5
+      HealthCheckProtocol: "HTTP"
+      TargetGroupAttributes:
+      - Value: "lb_cookie"
+        Key: "stickiness.type"
+      - Value: "86400"
+        Key: "stickiness.app_cookie.duration_seconds"
+      - Value: "1"
+        Key: "target_group_health.dns_failover.minimum_healthy_targets.count"
+      - Value: "use_load_balancer_configuration"
+        Key: "load_balancing.cross_zone.enabled"
+      - Value: "86400"
+        Key: "stickiness.lb_cookie.duration_seconds"
+      - Value: "off"
+        Key: "target_group_health.dns_failover.minimum_healthy_targets.percentage"
+      - Value: "false"
+        Key: "stickiness.enabled"
+      - Value: "off"
+        Key: "target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage"
+      - Value: "0"
+        Key: "slow_start.duration_seconds"
+      - Value: "300"
+        Key: "deregistration_delay.timeout_seconds"
+      - Value: "1"
+        Key: "target_group_health.unhealthy_state_routing.minimum_healthy_targets.count"
+      - Value: "off"
+        Key: "load_balancing.algorithm.anomaly_mitigation"
+      - Value: ""
+        Key: "stickiness.app_cookie.cookie_name"
+      - Value: "round_robin"
+        Key: "load_balancing.algorithm.type"
+      TargetType: "instance"
+      HealthCheckPort: "traffic-port"
+      Protocol: "HTTP"
+      Tags: []
+  EC2RoutePd:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTableTZ"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "EC2InternetGateway"
+      VpcEndpointId: "igw-023e97e1b65283fa6"
+  EC2RouteTableTZ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::RouteTable"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC"
+  EC2RouteTable:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::RouteTable"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPCRj"
+      Tags:
+      - Value: "public-rt"
+        Key: "Name"
+  EC2NetworkInterface:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Description: ""
+      PrivateIpAddress: "10.0.1.27"
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-03e5b8379e0af4b4b"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2SubnetKI"
+      Tags: []
+  EC2InternetGateway:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::InternetGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tags: []
+  AutoScalingScalingPolicyScalingPolicyf079f4341739462aa0cad80c4eaed484autoScalingGroupNamelenaspabackendasgpolicyNameTargetTrackingPolicy:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      PolicyType: "TargetTrackingScaling"
+      TargetTrackingConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: "ASGAverageCPUUtilization"
+        TargetValue: 50
+        DisableScaleIn: false
+      AutoScalingGroupName: "lena-spa-backend-asg"
+  EC2InternetGatewayB2:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::InternetGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tags:
+      - Value: "lena-spa-igw"
+        Key: "Name"

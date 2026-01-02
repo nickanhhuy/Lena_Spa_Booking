@@ -1,0 +1,114 @@
+# INTERACTIVE MYSQL ACCESS GUIDE
+
+===============================================
+STEP 1: SSH INTO EC2
+===============================================
+
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP>
+
+(Replace <EC2-IP> with your actual EC2 public IP)
+
+===============================================
+STEP 2: CONNECT TO MYSQL DATABASE
+===============================================
+
+mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb
+
+You should see: mysql>
+
+===============================================
+STEP 3: SQL COMMANDS (inside MySQL prompt)
+===============================================
+
+-- Show all tables
+SHOW TABLES;
+
+-- View all users
+SELECT * FROM users;
+
+-- View users (without password)
+SELECT id, username, email, role FROM users;
+
+-- View all bookings
+SELECT * FROM bookings;
+
+-- Count users
+SELECT COUNT(*) as total_users FROM users;
+
+-- Count bookings
+SELECT COUNT(*) as total_bookings FROM bookings;
+
+-- Find user by username
+SELECT * FROM users WHERE username='ahu';
+
+-- Find bookings by user
+SELECT * FROM bookings WHERE created_by='ahu';
+
+-- Make user admin
+UPDATE users SET role='ROLE_ADMIN' WHERE username='ahu';
+
+-- Make user regular user
+UPDATE users SET role='ROLE_USER' WHERE username='kaka';
+
+-- Delete a user
+DELETE FROM users WHERE username='testuser';
+
+-- Delete a booking
+DELETE FROM bookings WHERE id=2;
+
+-- Delete all bookings by a user
+DELETE FROM bookings WHERE created_by='ahu';
+
+-- View recent bookings (last 10)
+SELECT * FROM bookings ORDER BY booking_date DESC LIMIT 10;
+
+-- View bookings with specific service
+SELECT * FROM bookings WHERE service LIKE '%trắng%';
+
+-- Exit MySQL
+EXIT;
+
+===============================================
+STEP 4: EXIT EC2
+===============================================
+
+exit
+
+===============================================
+USEFUL MYSQL TIPS
+===============================================
+
+- End each SQL command with semicolon (;)
+- Use UP/DOWN arrow keys to navigate command history
+- Use Ctrl+C to cancel current command
+- Use Ctrl+D or type EXIT to quit MySQL
+- SQL commands are NOT case-sensitive (SELECT = select)
+- Table/column names ARE case-sensitive on Linux
+
+===============================================
+COMMON ERRORS
+===============================================
+
+Error: "Access denied"
+→ Check username/password are correct
+
+Error: "Can't connect to MySQL server"
+→ Check RDS endpoint is correct
+→ Check EC2 security group allows connection to RDS
+
+Error: "Unknown database"
+→ Check database name is 'lenaspadb'
+
+===============================================
+DATABASE INFO
+===============================================
+
+RDS Endpoint: lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com
+Username: admin
+Password: NICKAYanhhuy3005
+Database: lenaspadb
+Port: 3306
+
+Tables:
+- users (id, username, email, password, role)
+- bookings (id, name, email, phone, service, booking_date, created_by)

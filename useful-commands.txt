@@ -1,0 +1,128 @@
+# LENA SPA - USEFUL COMMANDS REFERENCE
+
+## REPLACE <EC2-IP> WITH YOUR ACTUAL EC2 PUBLIC IP ADDRESS
+
+===============================================
+APPLICATION MANAGEMENT COMMANDS
+===============================================
+
+1. CHECK IF APP IS RUNNING:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "ps aux | grep java | grep -v grep"
+
+2. START THE APP (if not running):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "cd /home/ec2-user && nohup ./start-app.sh > app.log 2>&1 < /dev/null &"
+
+3. STOP THE APP:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "sudo pkill -f java"
+
+4. RESTART THE APP:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "sudo pkill -f java && sleep 2 && cd /home/ec2-user && nohup ./start-app.sh > app.log 2>&1 < /dev/null &"
+
+5. CHECK APP LOGS (last 50 lines):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "tail -50 /home/ec2-user/app.log"
+
+6. CHECK APP LOGS (live monitoring):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "tail -f /home/ec2-user/app.log"
+
+===============================================
+DATABASE COMMANDS
+===============================================
+
+7. SHOW ALL TABLES:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'SHOW TABLES;'"
+
+8. VIEW ALL USERS:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'SELECT * FROM users;'"
+
+9. VIEW ALL BOOKINGS:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'SELECT * FROM bookings;'"
+
+10. COUNT USERS:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'SELECT COUNT(*) as total_users FROM users;'"
+
+11. COUNT BOOKINGS:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'SELECT COUNT(*) as total_bookings FROM bookings;'"
+
+12. MAKE USER ADMIN (replace 'username' with actual username):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e \"UPDATE users SET role='ROLE_ADMIN' WHERE username='username';\""
+
+13. DELETE A USER (replace 'username' with actual username):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e \"DELETE FROM users WHERE username='username';\""
+
+14. DELETE A BOOKING (replace ID with actual booking id):
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "mysql -h lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com -u admin -pNICKAYanhhuy3005 lenaspadb -e 'DELETE FROM bookings WHERE id=ID;'"
+
+===============================================
+EC2 INSTANCE COMMANDS
+===============================================
+
+15. SSH INTO EC2:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP>
+
+16. CHECK DISK SPACE:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "df -h"
+
+17. CHECK MEMORY USAGE:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "free -h"
+
+18. CHECK CPU USAGE:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "top -bn1 | head -20"
+
+19. LIST FILES IN HOME DIRECTORY:
+ssh -i /mnt/c/Documents/LenaBooking_Web/huy.pem ec2-user@<EC2-IP> "ls -la /home/ec2-user/"
+
+===============================================
+DEPLOYMENT COMMANDS
+===============================================
+
+20. UPLOAD NEW JAR TO EC2:
+scp -i /mnt/c/Documents/LenaBooking_Web/huy.pem /mnt/c/Documents/LenaBooking_Web/backend_Lena/backend_Lena/target/backend_Lena-0.0.1-SNAPSHOT.jar ec2-user@<EC2-IP>:/home/ec2-user/lena-spa-backend.jar
+
+21. BUILD NEW JAR (run from project directory):
+cd /mnt/c/Documents/LenaBooking_Web/backend_Lena/backend_Lena && ./mvnw clean package -DskipTests
+
+22. BUILD ANGULAR FRONTEND:
+cd /mnt/c/Documents/LenaBooking_Web/frontend_Lena/frontend_lena && ng build --configuration production
+
+===============================================
+TESTING COMMANDS
+===============================================
+
+23. TEST BACKEND HEALTH (replace <EC2-IP>):
+curl http://<EC2-IP>:8080/api/auth/login
+
+24. TEST ALB:
+curl http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api/auth/login
+
+25. TEST CORS:
+curl -X OPTIONS -H "Origin: http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com" -H "Access-Control-Request-Method: POST" -I http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com/api/auth/login
+
+===============================================
+IMPORTANT INFORMATION
+===============================================
+
+Frontend URL: http://lena-spa-frontend-1.s3-website-us-east-1.amazonaws.com
+Backend ALB URL: http://lena-spa-alb-1246212692.us-east-1.elb.amazonaws.com
+
+RDS Endpoint: lenaspadb.clkq808o6uwr.us-east-1.rds.amazonaws.com
+RDS Username: admin
+RDS Password: NICKAYanhhuy3005
+Database Name: lenaspadb
+
+Key File: /mnt/c/Documents/LenaBooking_Web/huy.pem
+Region: us-east-1
+
+Auto Scaling Group: lena-spa-backend-asg
+Launch Template: lena-spa-backend-lt
+AMI with CORS: lena-spa-backend-with-cors
+
+===============================================
+NOTES
+===============================================
+
+- Always replace <EC2-IP> with your actual EC2 public IP address
+- You can find EC2 IPs in AWS Console → EC2 → Instances
+- The app runs on port 8080 inside EC2
+- ALB forwards traffic from port 80 to EC2 port 8080
+- RDS is only accessible from EC2 instances (private subnets)
+- All new instances launched by Auto Scaling will have CORS configured
