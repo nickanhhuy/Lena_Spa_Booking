@@ -1,8 +1,5 @@
 # Lena Beauty Spa Management System
 
-<<<<<<< HEAD
-**Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site)
-=======
 **Live Site:** [lenaspabooking.site](https://www.lenaspabooking.site)
 >>>>>>> ac7dc286ff33371d79feb360a3f74a9e0d0ee8a0
 
