@@ -13,7 +13,8 @@ export class BookingService {
   constructor(private http: HttpClient) {}
 
   getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('jwtToken'); // Make sure token is saved after login
+    const token = localStorage.getItem('jwtToken');
+    console.log('JWT Token:', token ? `${token.substring(0, 20)}...` : 'null');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
