@@ -1,0 +1,20 @@
+# Manual S3 Deployment Steps
+
+1. Build the frontend:
+   cd frontend_Lena/frontend_lena
+   npm run build -- --configuration production
+
+2. Upload to S3 (replace YOUR-BUCKET-NAME with your actual S3 bucket name):
+   aws s3 sync dist/frontend_lena/browser/ s3://YOUR-BUCKET-NAME/ --delete
+
+3. Invalidate CloudFront cache (replace YOUR-DISTRIBUTION-ID):
+   aws cloudfront create-invalidation --distribution-id YOUR-DISTRIBUTION-ID --paths "/*"
+
+# Or use AWS Console:
+1. Go to S3 console
+2. Open your bucket
+3. Delete old files
+4. Upload all files from: frontend_Lena/frontend_lena/dist/frontend_lena/browser/
+5. Go to CloudFront console
+6. Select your distribution
+7. Create invalidation for path: /*

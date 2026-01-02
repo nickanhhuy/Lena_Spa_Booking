@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/health").permitAll() // health check endpoint
                         .requestMatchers("/api/auth/**").permitAll() // public auth routes
+                        .requestMatchers("/api/setup/**").permitAll() // temporary admin setup
                         .requestMatchers("/test-email/**").permitAll() // test email endpoint
                         .requestMatchers("/uploads/**").permitAll() // uploaded files
                         .requestMatchers("/api/bookings/available-slots").permitAll() // public access to check availability

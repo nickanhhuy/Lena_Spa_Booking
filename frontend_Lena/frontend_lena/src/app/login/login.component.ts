@@ -24,7 +24,9 @@ export class LoginComponent {
   }
 
   this.authService.login(this.credentials).subscribe({
-    next: () => {
+    next: (token) => {
+      console.log('Login successful, token received:', token ? 'YES' : 'NO');
+      console.log('Token stored in localStorage:', localStorage.getItem('jwtToken') ? 'YES' : 'NO');
       this.authService.getCurrentUser().subscribe({
         next: (username) => {
           localStorage.setItem('loggedInUser', username);

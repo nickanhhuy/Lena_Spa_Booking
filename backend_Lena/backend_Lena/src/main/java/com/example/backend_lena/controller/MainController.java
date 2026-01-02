@@ -1,6 +1,8 @@
 package com.example.backend_lena.controller;
 
 import com.example.backend_lena.model.BookInfo;
+import com.example.backend_lena.model.User;
+import com.example.backend_lena.repository.UserRepository;
 import com.example.backend_lena.service.BookingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
 public class MainController {
 
     @Autowired
     BookingService bookingService;
+    
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/bookings") //getting booking lists
 
@@ -43,9 +47,17 @@ public class MainController {
     @PostMapping("/bookings/addbooking") // book a new appointment
     public BookInfo addBooking(@Valid @RequestBody BookInfo booking, Authentication authentication) {
         String username = authentication.getName();
-        System.out.println("Booking created by: " + username); // check who book the appointment ( for debuging)
+        System.out.println("Booking created by: " + username);
+        
+        // Set the username who created the booking
         booking.setCreatedBy(username);
-        return bookingService.addOrUpdateBookInfo(booking); // add a new booking into db
+        
+        // Get user's email from database and set it to the booking
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        booking.setEmail(user.getEmail());
+        
+        return bookingService.addOrUpdateBookInfo(booking);
     }
 
     @PutMapping("/bookings/{id}/update") // edit the information of the booking

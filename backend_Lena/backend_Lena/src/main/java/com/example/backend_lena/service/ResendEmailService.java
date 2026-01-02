@@ -55,8 +55,9 @@ public class ResendEmailService {
             Resend resend = new Resend(apiKey);
             
             CreateEmailOptions params = CreateEmailOptions.builder()
-                .from(fromEmail)
+                .from("Lena Spa <" + fromEmail + ">")
                 .to(to)
+                .replyTo("huynguyen.study3054@gmail.com")
                 .subject(subject)
                 .html(htmlContent)
                 .build();

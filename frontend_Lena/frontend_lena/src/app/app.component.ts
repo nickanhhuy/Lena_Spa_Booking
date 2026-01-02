@@ -31,6 +31,11 @@ export class AppComponent {
     return !!localStorage.getItem('loggedInUser');
   }
 
+  isAdmin(): boolean {
+    const username = localStorage.getItem('loggedInUser');
+    return username === 'ahu' || username === 'admin';
+  }
+
   getUsername(): string | null {
     return localStorage.getItem('loggedInUser');
   }

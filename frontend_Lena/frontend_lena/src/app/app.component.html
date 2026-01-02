@@ -11,6 +11,7 @@
                     <a routerLink="/app-booking-form" routerLinkActive="active">BOOK NOW</a>
                     <a routerLink="/app-booking-list" routerLinkActive="active">MY BOOKING</a>
                     <a routerLink="/app-profile" routerLinkActive="active" *ngIf="isLoggedIn()">PROFILE</a>
+                    <a routerLink="/app-admin" routerLinkActive="active" *ngIf="isAdmin()" class="admin-link">ADMIN</a>
                     <a routerLink="/app-contact" routerLinkActive="active">CONTACT</a>
                 </div>
                 

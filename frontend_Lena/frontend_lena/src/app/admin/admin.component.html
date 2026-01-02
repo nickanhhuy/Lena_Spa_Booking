@@ -1,0 +1,191 @@
+<div class="admin-container">
+  <!-- Sidebar Navigation -->
+  <div class="admin-sidebar">
+    <h2>Admin Panel</h2>
+    <nav class="admin-nav">
+      <button 
+        [class.active]="activeTab === 'dashboard'" 
+        (click)="switchTab('dashboard')">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </button>
+      <button 
+        [class.active]="activeTab === 'bookings'" 
+        (click)="switchTab('bookings')">
+        <i class="bi bi-calendar-check"></i> Bookings
+      </button>
+      <button 
+        [class.active]="activeTab === 'services'" 
+        (click)="switchTab('services')">
+        <i class="bi bi-list-task"></i> Services
+      </button>
+      <button 
+        [class.active]="activeTab === 'timeslots'" 
+        (click)="switchTab('timeslots')">
+        <i class="bi bi-clock"></i> Time Slots
+      </button>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="admin-content">
+    
+    <!-- Dashboard Tab -->
+    <div *ngIf="activeTab === 'dashboard'" class="dashboard-tab">
+      <h1>Dashboard Overview</h1>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="bi bi-calendar-event"></i>
+          </div>
+          <div class="stat-info">
+            <h3>{{ totalBookings }}</h3>
+            <p>Total Bookings</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="bi bi-calendar-check"></i>
+          </div>
+          <div class="stat-info">
+            <h3>{{ todayBookings }}</h3>
+            <p>Today's Bookings</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <div class="stat-info">
+            <h3>{{ upcomingBookings }}</h3>
+            <p>Upcoming</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <i class="bi bi-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <h3>{{ completedBookings }}</h3>
+            <p>Completed</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-bookings">
+        <h2>Recent Bookings</h2>
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Date & Time</th>
+                <th>Phone</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let booking of allBookings.slice(0, 5)">
+                <td>{{ booking.name }}</td>
+                <td>{{ getServiceName(booking.service) }}</td>
+                <td>{{ formatDate(booking.bookingDate) }}</td>
+                <td>{{ booking.phone }}</td>
+                <td>
+                  <span class="status-badge" 
+                    [class.upcoming]="isUpcoming(booking.bookingDate)"
+                    [class.completed]="isCompleted(booking.bookingDate)">
+                    {{ getStatus(booking.bookingDate) }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bookings Management Tab -->
+    <div *ngIf="activeTab === 'bookings'" class="bookings-tab">
+      <h1>Booking Management</h1>
+      
+      <div class="search-bar">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (input)="searchBookings()"
+          placeholder="Search by name, email, phone, or service...">
+        <i class="bi bi-search"></i>
+      </div>
+
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Service</th>
+              <th>Date & Time</th>
+              <th>Created By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of filteredBookings">
+              <td>{{ booking.id }}</td>
+              <td>{{ booking.name }}</td>
+              <td>{{ booking.email }}</td>
+              <td>{{ booking.phone }}</td>
+              <td>{{ getServiceName(booking.service) }}</td>
+              <td>{{ formatDate(booking.bookingDate) }}</td>
+              <td>{{ booking.createdBy || 'N/A' }}</td>
+              <td>
+                <button class="btn-delete" (click)="deleteBooking(booking.id)">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Services Management Tab -->
+    <div *ngIf="activeTab === 'services'" class="services-tab">
+      <h1>Service Management</h1>
+      
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let service of services">
+          <h3>{{ service.name }}</h3>
+          <div class="service-details">
+            <p><strong>Price:</strong> {{ service.price.toLocaleString() }} VND</p>
+            <p><strong>Duration:</strong> {{ service.duration }} minutes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Slots Management Tab -->
+    <div *ngIf="activeTab === 'timeslots'" class="timeslots-tab">
+      <h1>Time Slot Configuration</h1>
+      
+      <div class="timeslots-grid">
+        <div class="timeslot-card" *ngFor="let slot of timeSlots">
+          <i class="bi bi-clock"></i>
+          <span>{{ slot }}</span>
+        </div>
+      </div>
+      
+      <p class="info-text">
+        <i class="bi bi-info-circle"></i>
+        Time slots are currently configured from 9:00 AM to 5:00 PM with 1-hour intervals.
+      </p>
+    </div>
+
+  </div>
+</div>

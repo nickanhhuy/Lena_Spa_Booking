@@ -5,4 +5,5 @@ export interface Booking {
   phone: string;
   service: string;
   bookingDate : string;
+  createdBy?: string;
 }

@@ -18,10 +18,8 @@ public class BookInfo {
     @NotBlank(message = "Name required")
     private String name;
 
-    //Email requirement: *@gmail.com
-    @NotBlank(message = "Email required")
+    // Email is optional - will be populated from user account
     @Email(message = "Invalid email format")
-    @Pattern(regexp = "[A-Za-z0-9._%+-]+@gmail\\.com$", message = "Email with gmail.com only")
     private String email;
 
     //Phone number including 10-11 digits
