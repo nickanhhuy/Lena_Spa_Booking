@@ -1,7 +1,6 @@
 # Lena Beauty Spa Management System
 
 **Live Site:** [lenaspabooking.site](https://www.lenaspabooking.site)
->>>>>>> ac7dc286ff33371d79feb360a3f74a9e0d0ee8a0
 
 A comprehensive spa appointment booking and management platform built with Java Spring Boot and Angular, featuring customer scheduling, service management, and administrative operations. The system implements clean architecture principles with JWT authentication and AWS cloud deployment.
 
