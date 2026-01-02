@@ -9,7 +9,7 @@ A production-ready spa appointment booking platform with **2,000+ lines of code*
 -  Production deployment with 99.9% uptime using AWS auto-scaling (2-10 EC2 instances)
 -  Secure authentication with JWT and role-based access control
 -  Real-time email notifications via Resend API
--  Multi-language support (English/Vietnamese)
+-  Booking and User Management with API CRUD operations and admin dashboard for data analytics.
 
 ## Tech Stack
 
