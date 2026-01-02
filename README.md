@@ -1,28 +1,22 @@
 # Lena Beauty Spa Booking System
 
-**Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site) | **Demo Video:** [Watch on YouTube](https://youtu.be/2Y7xkMZs48A)
+**Live Site:** [lenaspabooking.site](https://www.lenaspabooking.site)
 
-A production-ready spa appointment booking platform with **2,000+ lines of code** across Java Spring Boot backend and Angular frontend, deployed on AWS with auto-scaling infrastructure serving a live customer base.
+A comprehensive spa appointment booking and management platform built with Java Spring Boot and Angular, featuring customer scheduling, service management, and administrative operations. The system implements clean architecture principles with JWT authentication and AWS cloud deployment.
 
-**Key Achievements:**
-- ✅ Full-stack development with modern tech stack (Java, Angular, PostgreSQL, AWS)
-- ✅ Production deployment with 99.9% uptime using AWS auto-scaling (2-10 EC2 instances)
-- ✅ Secure authentication with JWT and role-based access control
-- ✅ Real-time email notifications via Resend API
-- ✅ Multi-language support (English/Vietnamese)
+## Demo
+
+[![Application Demo](https://img.youtube.com/vi/2Y7xkMZs48A/0.jpg)](https://youtu.be/2Y7xkMZs48A)
+
+*Click to view the complete application demonstration*
 
 ## Screenshots
 
-<table>
-  <tr>
-    <td><img src="assets/UI.png" alt="User Interface" width="400"/></td>
-    <td><img src="assets/bookform.png" alt="Booking Form" width="400"/></td>
-  </tr>
-  <tr>
-    <td align="center"><b>User Interface</b></td>
-    <td align="center"><b>Booking Form</b></td>
-  </tr>
-</table>
+### User Interface
+![Application UI](assets/UI.png)
+
+### Booking Form
+![Booking Form](assets/bookform.png)
 
 ## Tech Stack
 
