@@ -10,8 +10,6 @@ A comprehensive spa appointment booking and management platform built with Java 
 
 *Click to view the complete application demonstration*
 
-## Screenshots
-
 ## Tech Stack
 
 | Layer | Technology |
