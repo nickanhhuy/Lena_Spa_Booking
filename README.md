@@ -1,6 +1,6 @@
 # Lena Beauty Spa Management System
 
-**Live Site:** [lenaspabooking.site](https://lenaspabooking.site)
+**Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site)
 
 A comprehensive spa appointment booking and management platform built with Java Spring Boot and Angular, featuring customer scheduling, service management, and administrative operations. The system implements clean architecture principles with JWT authentication and AWS cloud deployment.
 
@@ -299,7 +299,7 @@ The application is deployed on AWS with the following components:
 1. Build Angular application: `npm run build`
 2. Upload to S3 bucket configured for static website hosting
 3. CloudFront CDN distribution for global content delivery
-4. Route 53 DNS configuration: https://lenaspabooking.site
+4. Route 53 DNS configuration: https://www.lenaspabooking.site
 
 **Backend Deployment:**
 1. Package Spring Boot application: `./mvnw clean package`
@@ -316,9 +316,9 @@ See `docs/deployment-guide.md` for detailed deployment instructions.
 
 ### Production Environment
 
-**Frontend:** https://lenaspabooking.site  
+**Frontend:** https://www.lenaspabooking.site  
 **Backend API:** https://api.lenaspabooking.site  
-**Admin Portal:** https://lenaspabooking.site/admin
+**Admin Portal:** https://www.lenaspabooking.site/admin
 
 ## API Endpoints
 

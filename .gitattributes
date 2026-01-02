@@ -1,0 +1,14 @@
+# Exclude generated/vendor files from language statistics
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+node_modules/* linguist-vendored
+target/* linguist-vendored
+*.lock linguist-generated
+package-lock.json linguist-generated
+
+# Mark documentation as documentation
+*.md linguist-documentation
+docs/* linguist-documentation
+
+# Mark assets as binary
+assets/* linguist-vendored
