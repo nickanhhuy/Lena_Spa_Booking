@@ -1,6 +1,10 @@
 # Lena Beauty Spa Management System
 
+<<<<<<< HEAD
 **Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site)
+=======
+**Live Site:** [lenaspabooking.site](https://www.lenaspabooking.site)
+>>>>>>> ac7dc286ff33371d79feb360a3f74a9e0d0ee8a0
 
 A comprehensive spa appointment booking and management platform built with Java Spring Boot and Angular, featuring customer scheduling, service management, and administrative operations. The system implements clean architecture principles with JWT authentication and AWS cloud deployment.
 
@@ -262,36 +266,6 @@ DB_PASSWORD=your_production_password
 ```
 
 ## Deployment
-
-### AWS Deployment Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                          Users/Clients                          │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-                    ┌────────▼────────┐
-                    │   Route 53 DNS  │
-                    └────────┬────────┘
-                             │
-              ┏━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┓
-              ▼                              ▼
-    ┌──────────────────┐          ┌──────────────────┐
-    │   CloudFront CDN │          │  Load Balancer   │
-    │  (lenaspabooking │          │ (api.lenaspa...) │
-    │      .site)      │          └────────┬─────────┘
-    └────────┬─────────┘                   │
-             │                    ┌────────▼────────┐
-    ┌────────▼─────────┐          │  Auto Scaling   │
-    │    S3 Bucket     │          │  Group (EC2)    │
-    │ (Angular Static) │          │   2-10 instances│
-    └──────────────────┘          └────────┬────────┘
-                                           │
-                                  ┌────────▼────────┐
-                                  │  RDS PostgreSQL │
-                                  │ (Private Subnet)│
-                                  └─────────────────┘
-```
 
 The application is deployed on AWS with the following components:
 
