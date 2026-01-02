@@ -12,12 +12,6 @@ A comprehensive spa appointment booking and management platform built with Java 
 
 ## Screenshots
 
-### User Interface
-![Application UI](assets/UI.png)
-
-### Booking Form
-![Booking Form](assets/bookform.png)
-
 ## Tech Stack
 
 | Layer | Technology |
