@@ -1,5 +1,7 @@
 # Lena Beauty Spa Management System
 
+**Live Site:** [lenaspabooking.site](https://lenaspabooking.site)
+
 A comprehensive spa appointment booking and management platform built with Java Spring Boot and Angular, featuring customer scheduling, service management, and administrative operations. The system implements clean architecture principles with JWT authentication and AWS cloud deployment.
 
 ## Demo
@@ -21,7 +23,7 @@ A comprehensive spa appointment booking and management platform built with Java 
 
 ## System Architecture
 
-![AWS Cloud Architecture](LenaSpa_AWS.architecture.jpg)
+![AWS Cloud Architecture](assets/LenaSpa_AWS.architecture.jpg)
 
 The application follows a three-tier architecture pattern deployed on Amazon Web Services, ensuring scalability, reliability, and security.
 
@@ -163,7 +165,7 @@ The application includes AWS CloudWatch integration for performance monitoring a
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/lena-spa-booking
+git clone https://github.com/nickanhhuy/lena-spa-booking
 cd lena-spa-booking
 ```
 
@@ -172,14 +174,50 @@ cd lena-spa-booking
 Create a `.env` file in `backend_Lena/backend_Lena` directory (see Configuration → Environment Variables).
 
 **3. Setup Database**
-```bash
-# Create PostgreSQL database
-createdb lena_spa
 
-# Update application.properties with your database credentials
+Create a PostgreSQL database:
+
+```bash
+# Using psql command line
+psql -U postgres
+
+# In psql shell
+CREATE DATABASE lena_spa;
+CREATE USER lena_user WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE lena_spa TO lena_user;
+\q
 ```
 
-**4. Run Backend**
+Or using pgAdmin or any PostgreSQL GUI tool, create a database named `lena_spa`.
+
+**4. Configure Environment Variables**
+
+Create a `.env` file in `backend_Lena/backend_Lena` directory:
+
+```bash
+# Database Configuration
+DB_HOSTNAME=localhost
+DB_PORT=5432
+DB_NAME=lena_spa
+DB_USERNAME=lena_user
+DB_PASSWORD=your_password
+
+# JWT Configuration
+JWT_SECRET=your-secret-key-here-make-it-long-and-random
+JWT_EXPIRATION=3600000
+
+# Resend Email Configuration
+RESEND_API_KEY=your-resend-api-key
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+
+# Admin Notification Email
+ADMIN_NOTIFICATION_EMAIL=admin@yourdomain.com
+
+# Server Port
+PORT=5000
+```
+
+**5. Run Backend**
 ```bash
 cd backend_Lena/backend_Lena
 
@@ -188,7 +226,9 @@ cd backend_Lena/backend_Lena
 ./mvnw spring-boot:run
 ```
 
-**5. Run Frontend**
+The backend will automatically create the necessary database tables on first run (using `spring.jpa.hibernate.ddl-auto=update`).
+
+**6. Run Frontend**
 ```bash
 cd frontend_Lena/frontend_lena
 
@@ -199,15 +239,59 @@ npm install
 npm start
 ```
 
-**6. Access the application**
+**7. Access the application**
 
 - **Frontend**: http://localhost:4200
-- **Backend API**: http://localhost:8080/api
+- **Backend API**: http://localhost:5000/api
 - **Admin Portal**: http://localhost:4200/admin
+
+### Connecting to Production Database (AWS RDS)
+
+If you need to connect to the production RDS database:
+
+```bash
+# Using psql
+psql -h your-rds-endpoint.region.rds.amazonaws.com -U your_username -d lena_spa
+
+# Or update your .env file with production credentials
+DB_HOSTNAME=your-rds-endpoint.region.rds.amazonaws.com
+DB_PORT=5432
+DB_NAME=lena_spa
+DB_USERNAME=your_production_username
+DB_PASSWORD=your_production_password
+```
 
 ## Deployment
 
 ### AWS Deployment Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                          Users/Clients                          │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                    ┌────────▼────────┐
+                    │   Route 53 DNS  │
+                    └────────┬────────┘
+                             │
+              ┏━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┓
+              ▼                              ▼
+    ┌──────────────────┐          ┌──────────────────┐
+    │   CloudFront CDN │          │  Load Balancer   │
+    │  (lenaspabooking │          │ (api.lenaspa...) │
+    │      .site)      │          └────────┬─────────┘
+    └────────┬─────────┘                   │
+             │                    ┌────────▼────────┐
+    ┌────────▼─────────┐          │  Auto Scaling   │
+    │    S3 Bucket     │          │  Group (EC2)    │
+    │ (Angular Static) │          │   2-10 instances│
+    └──────────────────┘          └────────┬────────┘
+                                           │
+                                  ┌────────▼────────┐
+                                  │  RDS PostgreSQL │
+                                  │ (Private Subnet)│
+                                  └─────────────────┘
+```
 
 The application is deployed on AWS with the following components:
 
@@ -228,69 +312,57 @@ The application is deployed on AWS with the following components:
 - Multi-AZ deployment for high availability
 - Automated backups and point-in-time recovery
 
-See `deployment-guide.md` for detailed deployment instructions.
+See `docs/deployment-guide.md` for detailed deployment instructions.
 
 ### Production Environment
 
-**Frontend:** https://lenaspabooking.site
-**Backend API:** https://api.lenaspabooking.site
+**Frontend:** https://lenaspabooking.site  
+**Backend API:** https://api.lenaspabooking.site  
 **Admin Portal:** https://lenaspabooking.site/admin
 
 ## API Endpoints
 
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/user` - Get current user profile
-- `PUT /api/auth/user` - Update user profile
-
-### Bookings
-- `GET /api/bookings` - List all bookings (Admin)
-- `GET /api/bookings/user` - Get user's bookings
-- `POST /api/bookings` - Create new booking
-- `PUT /api/bookings/{id}` - Update booking
-- `DELETE /api/bookings/{id}` - Cancel booking
-
-### Services
-- `GET /api/services` - List all spa services
-- `POST /api/services` - Create service (Admin)
-- `PUT /api/services/{id}` - Update service (Admin)
-- `DELETE /api/services/{id}` - Delete service (Admin)
-
-### Admin
-- `GET /api/admin/dashboard` - Dashboard statistics
-- `POST /api/admin/setup` - Promote user to admin
-- `GET /api/admin/users` - List all users
-- `GET /api/admin/bookings` - All bookings with filters
-
-### Health Check
-- `GET /api/health` - Application health status
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| **Authentication** |
+| POST | `/api/auth/register` | User registration | No |
+| POST | `/api/auth/login` | User login | No |
+| GET | `/api/auth/user` | Get current user profile | Yes |
+| PUT | `/api/auth/user` | Update user profile | Yes |
+| **Bookings** |
+| GET | `/api/bookings` | List all bookings (Admin) | Yes (Admin) |
+| GET | `/api/bookings/user` | Get user's bookings | Yes |
+| POST | `/api/bookings` | Create new booking | Yes |
+| PUT | `/api/bookings/{id}` | Update booking | Yes |
+| DELETE | `/api/bookings/{id}` | Cancel booking | Yes |
+| **Services** |
+| GET | `/api/services` | List all spa services | No |
+| POST | `/api/services` | Create service | Yes (Admin) |
+| PUT | `/api/services/{id}` | Update service | Yes (Admin) |
+| DELETE | `/api/services/{id}` | Delete service | Yes (Admin) |
+| **Admin** |
+| GET | `/api/admin/dashboard` | Dashboard statistics | Yes (Admin) |
+| POST | `/api/admin/setup` | Promote user to admin | Yes (Admin) |
+| GET | `/api/admin/users` | List all users | Yes (Admin) |
+| GET | `/api/admin/bookings` | All bookings with filters | Yes (Admin) |
+| **Health Check** |
+| GET | `/api/health` | Application health status | No |
 
 ## AWS Infrastructure
 
-### Compute & Networking
-
-- **Amazon EC2**: Spring Boot backend hosting with auto-scaling
-- **Application Load Balancer**: Traffic distribution and health checks
-- **Auto Scaling Groups**: Dynamic scaling (2-10 instances based on CPU)
-- **VPC**: Isolated network with public/private subnets
-- **Security Groups**: Network-level firewall and access control
-- **Internet Gateway**: Secure internet connectivity
-
-### Storage & Database
-
-- **Amazon RDS PostgreSQL**: Managed database with Multi-AZ deployment
-- **Amazon S3**: Static website hosting for Angular frontend
-- **CloudFront CDN**: Global content delivery with HTTPS
-- **Automated Backups**: Daily snapshots with 7-day retention
-
-### Monitoring & Management
-
-- **CloudWatch**: Application and infrastructure monitoring
-- **CloudWatch Logs**: Centralized logging for backend services
-- **Route 53**: DNS management and domain routing
-- **Auto Scaling Policies**: CPU utilization-based scaling triggers
-- **CloudWatch Alarms**: Automated alerts for critical metrics
+| Service | Purpose | Configuration |
+|---------|---------|---------------|
+| **Amazon EC2** | Spring Boot backend hosting | Auto-scaling instances with health checks |
+| **Application Load Balancer** | Traffic distribution | HTTPS termination, health monitoring |
+| **Auto Scaling Groups** | Dynamic scaling | 2-10 instances based on CPU utilization |
+| **Amazon RDS PostgreSQL** | Managed database | Multi-AZ deployment, automated backups |
+| **Amazon S3** | Static website hosting | Angular frontend with versioning |
+| **CloudFront CDN** | Global content delivery | HTTPS, edge caching, custom domain |
+| **Route 53** | DNS management | Domain routing for frontend and API |
+| **VPC** | Network isolation | Public/private subnets, security groups |
+| **Security Groups** | Network firewall | Port-level access control |
+| **CloudWatch** | Monitoring & logging | Application metrics, log aggregation |
+| **CloudWatch Alarms** | Automated alerts | CPU, memory, and error rate monitoring |
 
 ## Development Practices
 
@@ -304,19 +376,3 @@ See `deployment-guide.md` for detailed deployment instructions.
 ## Support
 
 For issues and questions, please open an issue in the repository.
-
-## About
-
-Lena Beauty Spa Management System provides a complete solution for spa businesses to manage appointments, services, and customer relationships through a modern web-based platform.
-
-**Live Site:** [lenaspabooking.site](https://lenaspabooking.site)
-
-## Topics
-
-`spa-management` `booking-system` `java-spring-boot` `angular` `aws-cloud` `jwt-authentication` `postgresql` `rest-api` `full-stack`
-
----
-
-**Lena Beauty Spa Management System** - Professional, scalable, and secure spa management solution.
-
-© 2026 Lena Spa. All rights reserved.
