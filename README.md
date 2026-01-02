@@ -263,36 +263,6 @@ DB_PASSWORD=your_production_password
 
 ## Deployment
 
-### AWS Deployment Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                          Users/Clients                          │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-                    ┌────────▼────────┐
-                    │   Route 53 DNS  │
-                    └────────┬────────┘
-                             │
-              ┏━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┓
-              ▼                              ▼
-    ┌──────────────────┐          ┌──────────────────┐
-    │   CloudFront CDN │          │  Load Balancer   │
-    │  (lenaspabooking │          │ (api.lenaspa...) │
-    │      .site)      │          └────────┬─────────┘
-    └────────┬─────────┘                   │
-             │                    ┌────────▼────────┐
-    ┌────────▼─────────┐          │  Auto Scaling   │
-    │    S3 Bucket     │          │  Group (EC2)    │
-    │ (Angular Static) │          │   2-10 instances│
-    └──────────────────┘          └────────┬────────┘
-                                           │
-                                  ┌────────▼────────┐
-                                  │  RDS PostgreSQL │
-                                  │ (Private Subnet)│
-                                  └─────────────────┘
-```
-
 The application is deployed on AWS with the following components:
 
 **Frontend Deployment:**
