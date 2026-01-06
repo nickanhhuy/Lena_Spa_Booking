@@ -24,7 +24,7 @@ A production-ready spa appointment booking platform with **2,000+ lines of code*
 
 ## System Architecture
 
-![AWS Cloud Architecture](assets/LenaSpa_AWS.architecture.jpg)
+![AWS Cloud Architecture](assets/LenaSpa_AWS_latest.drawio.png)
 
 **Production Infrastructure:** Three-tier architecture on AWS with auto-scaling EC2 instances, RDS PostgreSQL Multi-AZ, S3 + CloudFront CDN, and Application Load Balancer for high availability.
 
