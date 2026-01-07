@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { authGuard } from './auth.guard';
 import { adminGuard } from './admin.guard';
 
@@ -17,5 +18,6 @@ export const routes: Routes = [
     {path: 'app-admin', component: AdminComponent, canActivate: [adminGuard]},
     {path: 'app-login', component: LoginComponent},
     {path: 'app-signup', component: SignUpComponent},
+    {path: 'verify-email', component: EmailVerificationComponent},
     {path: '', redirectTo: '/app-home', pathMatch: 'full'},
 ];

@@ -15,13 +15,25 @@ export class AuthService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  register(user: { username: string; password: string }): Observable<string> {
+  register(user: { username: string; password: string; email: string }): Observable<string> {
     return this.http.post(`${this.baseUrl}/register`, user, {
       responseType: 'text',
     });
   }
 
-  login(credentials: { username: string; password: string }): Observable<string> {
+  verifyEmail(token: string): Observable<string> {
+    return this.http.get(`${this.baseUrl}/verify-email?token=${token}`, {
+      responseType: 'text'
+    });
+  }
+
+  resendVerificationEmail(email: string): Observable<string> {
+    return this.http.post(`${this.baseUrl}/resend-verification?email=${email}`, {}, {
+      responseType: 'text'
+    });
+  }
+
+  login(credentials: { email: string; password: string }): Observable<string> {
     return new Observable<string>((observer) => {
       this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text' }).subscribe({
         next: (token: string) => {

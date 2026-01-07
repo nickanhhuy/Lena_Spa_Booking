@@ -50,6 +50,12 @@ public class ResendEmailService {
         sendEmail(to, subject, htmlContent);
     }
 
+    public void sendEmailVerification(String to, String username, String verificationToken) {
+        String subject = "Verify Your Email - Lena Spa";
+        String htmlContent = buildEmailVerificationHtml(username, verificationToken);
+        sendEmail(to, subject, htmlContent);
+    }
+
     private void sendEmail(String to, String subject, String htmlContent) {
         try {
             Resend resend = new Resend(apiKey);
@@ -170,6 +176,40 @@ public class ResendEmailService {
             </div>
             """,
             username
+        );
+    }
+
+    private String buildEmailVerificationHtml(String username, String verificationToken) {
+        String verificationUrl = "https://www.lenaspabooking.site/verify-email?token=" + verificationToken;
+        
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #639a3e;">Verify Your Email Address</h2>
+                <p>Hi <strong>%s</strong>,</p>
+                <p>Thank you for registering with Lena Spa! To complete your registration and start booking appointments, please verify your email address.</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="%s" style="background-color: #639a3e; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                        Verify Email Address
+                    </a>
+                </div>
+                
+                <p>Or copy and paste this link into your browser:</p>
+                <p style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; word-break: break-all; font-size: 12px;">
+                    %s
+                </p>
+                
+                <p style="color: #666; font-size: 12px; margin-top: 30px;">
+                    This verification link will expire in 24 hours. If you didn't create an account with Lena Spa, please ignore this email.
+                </p>
+                
+                <p>Welcome to Lena Spa!</p>
+                <p style="color: #639a3e;"><strong>The Lena Spa Team</strong></p>
+            </div>
+            """,
+            username,
+            verificationUrl,
+            verificationUrl
         );
     }
 }

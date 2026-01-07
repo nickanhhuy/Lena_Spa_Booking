@@ -7,13 +7,13 @@
     
     <form (ngSubmit)="login()" class="auth-form">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="email">Email Address</label>
         <input 
-          id="username"
-          type="text" 
-          [(ngModel)]="credentials.username" 
-          name="username" 
-          placeholder="Enter your username"
+          id="email"
+          type="email" 
+          [(ngModel)]="credentials.email" 
+          name="email" 
+          placeholder="Enter your email address"
           required 
         />
       </div>
@@ -32,6 +32,25 @@
       
       <div class="error-message" *ngIf="message">
         {{ message }}
+      </div>
+
+      <!-- Resend Verification Section -->
+      <div class="resend-verification" *ngIf="showResendVerification">
+        <div class="verification-prompt">
+          <p>Need to resend verification email?</p>
+          <div class="form-group">
+            <input 
+              type="email" 
+              [(ngModel)]="resendEmail" 
+              name="resendEmail"
+              placeholder="Enter your email address"
+              class="form-control"
+            />
+          </div>
+          <button type="button" class="btn-secondary" (click)="resendVerificationEmail()">
+            Resend Verification Email
+          </button>
+        </div>
       </div>
       
       <button type="submit" class="btn-primary">Sign In</button>

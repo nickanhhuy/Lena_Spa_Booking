@@ -30,6 +30,9 @@ public class User implements UserDetails {
 
     private String avatarUrl;
 
+    private boolean emailVerified = false;
+
+    private String verificationToken;
 
     public User() {}
 
@@ -90,6 +93,22 @@ public class User implements UserDetails {
         this.avatarUrl = avatarUrl;
     }
 
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
 
     public String getRole() {
         return role;
@@ -124,7 +143,9 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() { 
+        return emailVerified; // Only allow login if email is verified
+    }
 }
 
 
