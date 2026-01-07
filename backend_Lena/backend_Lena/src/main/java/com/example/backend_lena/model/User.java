@@ -34,6 +34,10 @@ public class User implements UserDetails {
 
     private String verificationToken;
 
+    private String passwordResetToken;
+
+    private java.time.LocalDateTime passwordResetTokenExpiry;
+
     public User() {}
 
     public User(String username, String password, String email, String role) {
@@ -107,6 +111,22 @@ public class User implements UserDetails {
 
     public void setVerificationToken(String verificationToken) {
         this.verificationToken = verificationToken;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public java.time.LocalDateTime getPasswordResetTokenExpiry() {
+        return passwordResetTokenExpiry;
+    }
+
+    public void setPasswordResetTokenExpiry(java.time.LocalDateTime passwordResetTokenExpiry) {
+        this.passwordResetTokenExpiry = passwordResetTokenExpiry;
     }
 
 

@@ -33,6 +33,18 @@ export class AuthService {
     });
   }
 
+  forgotPassword(email: string): Observable<string> {
+    return this.http.post(`${this.baseUrl}/forgot-password?email=${email}`, {}, {
+      responseType: 'text'
+    });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<string> {
+    return this.http.post(`${this.baseUrl}/reset-password?token=${token}&newPassword=${newPassword}`, {}, {
+      responseType: 'text'
+    });
+  }
+
   login(credentials: { email: string; password: string }): Observable<string> {
     return new Observable<string>((observer) => {
       this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text' }).subscribe({

@@ -56,6 +56,12 @@ public class ResendEmailService {
         sendEmail(to, subject, htmlContent);
     }
 
+    public void sendPasswordResetEmail(String to, String username, String resetToken) {
+        String subject = "Reset Your Password - Lena Spa";
+        String htmlContent = buildPasswordResetEmailHtml(username, resetToken);
+        sendEmail(to, subject, htmlContent);
+    }
+
     private void sendEmail(String to, String subject, String htmlContent) {
         try {
             Resend resend = new Resend(apiKey);
@@ -210,6 +216,44 @@ public class ResendEmailService {
             username,
             verificationUrl,
             verificationUrl
+        );
+    }
+
+    private String buildPasswordResetEmailHtml(String username, String resetToken) {
+        String resetUrl = "https://www.lenaspabooking.site/reset-password?token=" + resetToken;
+        
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #639a3e;">Reset Your Password</h2>
+                <p>Hi <strong>%s</strong>,</p>
+                <p>We received a request to reset your password for your Lena Spa account. Click the button below to create a new password.</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="%s" style="background-color: #639a3e; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                        Reset Password
+                    </a>
+                </div>
+                
+                <p>Or copy and paste this link into your browser:</p>
+                <p style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; word-break: break-all; font-size: 12px;">
+                    %s
+                </p>
+                
+                <p style="color: #666; font-size: 12px; margin-top: 30px;">
+                    <strong>Important:</strong> This password reset link will expire in 1 hour for security reasons.
+                </p>
+                
+                <p style="color: #dc3545; font-size: 12px;">
+                    If you didn't request a password reset, please ignore this email or contact us if you have concerns about your account security.
+                </p>
+                
+                <p>Best regards,</p>
+                <p style="color: #639a3e;"><strong>The Lena Spa Team</strong></p>
+            </div>
+            """,
+            username,
+            resetUrl,
+            resetUrl
         );
     }
 }
