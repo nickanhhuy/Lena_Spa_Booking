@@ -35,6 +35,15 @@ public class BookInfo {
     @Column(name = "created_by")
     private String createdBy;
 
+    @Column(name = "status")
+    private String status = "CONFIRMED"; // CONFIRMED, CANCELLED, RESCHEDULED
+
+    @Column(name = "cancellation_reason")
+    private String cancellationReason;
+
+    @Column(name = "cancelled_at")
+    private LocalDateTime cancelledAt;
+
     public BookInfo(Long id, String name, String email, String phone, String service, LocalDateTime bookingDate) {
         this.id = id;
         this.name = name;
@@ -42,6 +51,7 @@ public class BookInfo {
         this.phone = phone;
         this.service = service;
         this.bookingDate = bookingDate;
+        this.status = "CONFIRMED";
     }
 
     public BookInfo() {
@@ -102,5 +112,29 @@ public class BookInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCancellationReason() {
+        return cancellationReason;
+    }
+
+    public void setCancellationReason(String cancellationReason) {
+        this.cancellationReason = cancellationReason;
+    }
+
+    public LocalDateTime getCancelledAt() {
+        return cancelledAt;
+    }
+
+    public void setCancelledAt(LocalDateTime cancelledAt) {
+        this.cancelledAt = cancelledAt;
     }
 }

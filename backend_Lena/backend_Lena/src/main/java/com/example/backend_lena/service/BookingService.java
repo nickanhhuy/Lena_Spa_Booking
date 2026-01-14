@@ -24,6 +24,11 @@ public class BookingService {
     private ResendEmailService resendEmailService;
 
     public BookInfo addOrUpdateBookInfo(BookInfo booking) {
+        // Set status to CONFIRMED for new bookings
+        if (booking.getStatus() == null || booking.getStatus().isEmpty()) {
+            booking.setStatus("CONFIRMED");
+        }
+        
         BookInfo saved_bookInfo = bookingRepository.save(booking);
         
         // Send confirmation email to customer
@@ -41,6 +46,71 @@ public class BookingService {
         }
         
         return saved_bookInfo;
+    }
+
+    public BookInfo cancelBooking(Long bookingId, String cancellationReason) {
+        Optional<BookInfo> bookingOpt = bookingRepository.findById(bookingId);
+        
+        if (bookingOpt.isEmpty()) {
+            throw new RuntimeException("Booking not found");
+        }
+        
+        BookInfo booking = bookingOpt.get();
+        
+        if ("CANCELLED".equals(booking.getStatus())) {
+            throw new RuntimeException("Booking is already cancelled");
+        }
+        
+        booking.setStatus("CANCELLED");
+        booking.setCancellationReason(cancellationReason);
+        booking.setCancelledAt(LocalDateTime.now());
+        
+        BookInfo cancelledBooking = bookingRepository.save(booking);
+        
+        // Send cancellation email to customer
+        try {
+            resendEmailService.sendBookingCancellationEmail(
+                cancelledBooking.getCreatedBy(), 
+                cancelledBooking
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to send cancellation email: " + e.getMessage());
+        }
+        
+        return cancelledBooking;
+    }
+
+    public BookInfo rescheduleBooking(Long bookingId, LocalDateTime newBookingDate) {
+        Optional<BookInfo> bookingOpt = bookingRepository.findById(bookingId);
+        
+        if (bookingOpt.isEmpty()) {
+            throw new RuntimeException("Booking not found");
+        }
+        
+        BookInfo booking = bookingOpt.get();
+        
+        if ("CANCELLED".equals(booking.getStatus())) {
+            throw new RuntimeException("Cannot reschedule a cancelled booking");
+        }
+        
+        LocalDateTime oldDate = booking.getBookingDate();
+        booking.setBookingDate(newBookingDate);
+        booking.setStatus("RESCHEDULED");
+        
+        BookInfo rescheduledBooking = bookingRepository.save(booking);
+        
+        // Send rescheduling email to customer
+        try {
+            resendEmailService.sendBookingRescheduleEmail(
+                rescheduledBooking.getCreatedBy(), 
+                rescheduledBooking,
+                oldDate
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to send reschedule email: " + e.getMessage());
+        }
+        
+        return rescheduledBooking;
     }
 
     public List<BookInfo> getBookings() {

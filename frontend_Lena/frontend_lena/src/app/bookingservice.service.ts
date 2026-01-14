@@ -55,5 +55,19 @@ export class BookingService {
       headers: this.getAuthHeaders()
     });
   }
+
+  cancelBookingWithReason(id: number, reason: string): Observable<Booking> {
+    return this.http.post<Booking>(`${this.apiUrl}/bookings/${id}/cancel`, 
+      { reason }, 
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  rescheduleBooking(id: number, newDate: string): Observable<Booking> {
+    return this.http.post<Booking>(`${this.apiUrl}/bookings/${id}/reschedule`, 
+      { newDate }, 
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
 

@@ -14,6 +14,13 @@ import { FormsModule } from '@angular/forms';
 export class BookingListComponent  {
   bookings: Booking[] = [];
   selectedBooking: Booking | null = null; // list of selected bookings
+  showCancelModal: boolean = false;
+  showRescheduleModal: boolean = false;
+  bookingToCancel: Booking | null = null;
+  bookingToReschedule: Booking | null = null;
+  cancellationReason: string = '';
+  newBookingDate: string = '';
+  newBookingTime: string = '';
 
   constructor(private bookingService: BookingService) {
     this.getBookings();
@@ -60,6 +67,78 @@ export class BookingListComponent  {
         this.getBookings(); 
       });
     }
+  }
+
+  openCancelModal(booking: Booking) {
+    this.bookingToCancel = booking;
+    this.cancellationReason = '';
+    this.showCancelModal = true;
+  }
+
+  closeCancelModal() {
+    this.showCancelModal = false;
+    this.bookingToCancel = null;
+    this.cancellationReason = '';
+  }
+
+  confirmCancellation() {
+    if (!this.bookingToCancel || !this.bookingToCancel.id) return;
+
+    this.bookingService.cancelBookingWithReason(this.bookingToCancel.id, this.cancellationReason).subscribe({
+      next: () => {
+        alert('Booking cancelled successfully! You will receive a confirmation email.');
+        this.closeCancelModal();
+        this.getBookings();
+      },
+      error: (err) => {
+        console.error('Failed to cancel booking:', err);
+        alert('Failed to cancel booking. Please try again.');
+      }
+    });
+  }
+
+  openRescheduleModal(booking: Booking) {
+    this.bookingToReschedule = booking;
+    this.newBookingDate = '';
+    this.newBookingTime = '';
+    this.showRescheduleModal = true;
+  }
+
+  closeRescheduleModal() {
+    this.showRescheduleModal = false;
+    this.bookingToReschedule = null;
+    this.newBookingDate = '';
+    this.newBookingTime = '';
+  }
+
+  confirmReschedule() {
+    if (!this.bookingToReschedule || !this.bookingToReschedule.id) return;
+    if (!this.newBookingDate || !this.newBookingTime) {
+      alert('Please select both date and time');
+      return;
+    }
+
+    const newDateTime = `${this.newBookingDate}T${this.newBookingTime}:00`;
+    
+    this.bookingService.rescheduleBooking(this.bookingToReschedule.id, newDateTime).subscribe({
+      next: () => {
+        alert('Booking rescheduled successfully! You will receive a confirmation email.');
+        this.closeRescheduleModal();
+        this.getBookings();
+      },
+      error: (err) => {
+        console.error('Failed to reschedule booking:', err);
+        alert('Failed to reschedule booking. Please try again.');
+      }
+    });
+  }
+
+  canCancelOrReschedule(booking: Booking): boolean {
+    return booking.status !== 'CANCELLED';
+  }
+
+  getTodayDate(): string {
+    return new Date().toISOString().split('T')[0];
   }
 
 }

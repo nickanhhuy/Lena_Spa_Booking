@@ -6,4 +6,7 @@ export interface Booking {
   service: string;
   bookingDate : string;
   createdBy?: string;
+  status?: string;
+  cancellationReason?: string;
+  cancelledAt?: string;
 }

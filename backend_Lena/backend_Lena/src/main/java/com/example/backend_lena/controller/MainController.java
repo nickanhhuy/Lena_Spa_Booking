@@ -10,7 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -85,6 +87,42 @@ public class MainController {
 
             bookingService.deleteById(id);
         });
+    }
+
+    // Cancel booking
+    @PostMapping("/bookings/{id}/cancel")
+    public BookInfo cancelBooking(@PathVariable Long id, @RequestBody Map<String, String> payload, Authentication authentication) {
+        String username = authentication.getName();
+        BookInfo booking = bookingService.getBookingById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && !booking.getCreatedBy().equals(username)) {
+            throw new RuntimeException("Unauthorized to cancel this booking");
+        }
+
+        String cancellationReason = payload.get("reason");
+        return bookingService.cancelBooking(id, cancellationReason);
+    }
+
+    // Reschedule booking
+    @PostMapping("/bookings/{id}/reschedule")
+    public BookInfo rescheduleBooking(@PathVariable Long id, @RequestBody Map<String, String> payload, Authentication authentication) {
+        String username = authentication.getName();
+        BookInfo booking = bookingService.getBookingById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && !booking.getCreatedBy().equals(username)) {
+            throw new RuntimeException("Unauthorized to reschedule this booking");
+        }
+
+        LocalDateTime newDate = LocalDateTime.parse(payload.get("newDate"));
+        return bookingService.rescheduleBooking(id, newDate);
     }
 
 }

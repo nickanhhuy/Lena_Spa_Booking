@@ -10,6 +10,7 @@
           <th>Phone</th>
           <th>Service</th>
           <th>Date & Time</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -21,10 +22,22 @@
           <td>{{ booking.service }}</td>
           <td>{{ booking.bookingDate | date:'short' }}</td>
           <td>
-            <button class="updateButton" (click)="editBooking(booking)">
+            <span class="status-badge" [ngClass]="{
+              'status-confirmed': booking.status === 'CONFIRMED',
+              'status-cancelled': booking.status === 'CANCELLED',
+              'status-rescheduled': booking.status === 'RESCHEDULED'
+            }">
+              {{ booking.status || 'CONFIRMED' }}
+            </span>
+          </td>
+          <td>
+            <button class="updateButton" (click)="editBooking(booking)" *ngIf="canCancelOrReschedule(booking)">
               Update
             </button>
-            <button class="cancelButton" (click)="cancelBooking(booking.id!)">
+            <button class="rescheduleButton" (click)="openRescheduleModal(booking)" *ngIf="canCancelOrReschedule(booking)">
+              Reschedule
+            </button>
+            <button class="cancelButton" (click)="openCancelModal(booking)" *ngIf="canCancelOrReschedule(booking)">
               Cancel
             </button>
           </td>
@@ -61,6 +74,64 @@
     <ng-template #noData>
       <p>No appointments found.</p>
     </ng-template>
+  </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal" *ngIf="showCancelModal">
+  <div class="modal-content">
+    <h3>Cancel Booking</h3>
+    <p>Are you sure you want to cancel this appointment?</p>
+    <div class="booking-details">
+      <p><strong>Service:</strong> {{ bookingToCancel?.service }}</p>
+      <p><strong>Date:</strong> {{ bookingToCancel?.bookingDate | date:'medium' }}</p>
+    </div>
+    <div class="form-group">
+      <label for="cancellationReason">Reason for cancellation (optional):</label>
+      <textarea 
+        id="cancellationReason"
+        [(ngModel)]="cancellationReason" 
+        placeholder="Please let us know why you're cancelling..."
+        rows="3">
+      </textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="confirmCancellation()">Yes, Cancel Booking</button>
+      <button class="btn-secondary" (click)="closeCancelModal()">No, Keep Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reschedule Modal -->
+<div class="modal" *ngIf="showRescheduleModal">
+  <div class="modal-content">
+    <h3>Reschedule Booking</h3>
+    <p>Select a new date and time for your appointment</p>
+    <div class="booking-details">
+      <p><strong>Service:</strong> {{ bookingToReschedule?.service }}</p>
+      <p><strong>Current Date:</strong> {{ bookingToReschedule?.bookingDate | date:'medium' }}</p>
+    </div>
+    <div class="form-group">
+      <label for="newDate">New Date:</label>
+      <input 
+        type="date" 
+        id="newDate"
+        [(ngModel)]="newBookingDate" 
+        [min]="getTodayDate()"
+        required>
+    </div>
+    <div class="form-group">
+      <label for="newTime">New Time:</label>
+      <input 
+        type="time" 
+        id="newTime"
+        [(ngModel)]="newBookingTime" 
+        required>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" (click)="confirmReschedule()">Confirm Reschedule</button>
+      <button class="btn-secondary" (click)="closeRescheduleModal()">Cancel</button>
+    </div>
   </div>
 </div>
 

@@ -62,6 +62,18 @@ public class ResendEmailService {
         sendEmail(to, subject, htmlContent);
     }
 
+    public void sendBookingCancellationEmail(String to, BookInfo booking) {
+        String subject = "Booking Cancelled - Lena Spa";
+        String htmlContent = buildBookingCancellationEmailHtml(booking);
+        sendEmail(to, subject, htmlContent);
+    }
+
+    public void sendBookingRescheduleEmail(String to, BookInfo booking, LocalDateTime oldDate) {
+        String subject = "Booking Rescheduled - Lena Spa";
+        String htmlContent = buildBookingRescheduleEmailHtml(booking, oldDate);
+        sendEmail(to, subject, htmlContent);
+    }
+
     private void sendEmail(String to, String subject, String htmlContent) {
         try {
             Resend resend = new Resend(apiKey);
@@ -254,6 +266,76 @@ public class ResendEmailService {
             username,
             resetUrl,
             resetUrl
+        );
+    }
+
+    private String buildBookingCancellationEmailHtml(BookInfo booking) {
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #dc3545;">Booking Cancelled</h2>
+                <p>Hi <strong>%s</strong>,</p>
+                <p>Your appointment at Lena Spa has been cancelled as requested.</p>
+                
+                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="margin-top: 0;">Cancelled Appointment Details:</h3>
+                    <p><strong>Service:</strong> %s</p>
+                    <p><strong>Original Date & Time:</strong> %s</p>
+                    <p><strong>Phone:</strong> %s</p>
+                    %s
+                </div>
+                
+                <p>We're sorry to see you cancel your appointment. If you'd like to book again in the future, we'd love to serve you!</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://www.lenaspabooking.site/app-booking-form" style="background-color: #639a3e; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                        Book Another Appointment
+                    </a>
+                </div>
+                
+                <p>If you have any questions, please contact us.</p>
+                <p style="color: #639a3e;"><strong>The Lena Spa Team</strong></p>
+            </div>
+            """,
+            booking.getName(),
+            booking.getService(),
+            booking.getBookingDate(),
+            booking.getPhone(),
+            booking.getCancellationReason() != null 
+                ? "<p><strong>Reason:</strong> " + booking.getCancellationReason() + "</p>" 
+                : ""
+        );
+    }
+
+    private String buildBookingRescheduleEmailHtml(BookInfo booking, java.time.LocalDateTime oldDate) {
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #639a3e;">Booking Rescheduled</h2>
+                <p>Hi <strong>%s</strong>,</p>
+                <p>Your appointment at Lena Spa has been successfully rescheduled!</p>
+                
+                <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                    <h3 style="margin-top: 0;">Previous Appointment:</h3>
+                    <p><strong>Date & Time:</strong> %s</p>
+                </div>
+                
+                <div style="background-color: #d4edda; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
+                    <h3 style="margin-top: 0;">New Appointment Details:</h3>
+                    <p><strong>Service:</strong> %s</p>
+                    <p><strong>New Date & Time:</strong> %s</p>
+                    <p><strong>Phone:</strong> %s</p>
+                </div>
+                
+                <p>We look forward to seeing you at your new appointment time!</p>
+                
+                <p>If you need to make any changes, please contact us or visit our website.</p>
+                <p style="color: #639a3e;"><strong>The Lena Spa Team</strong></p>
+            </div>
+            """,
+            booking.getName(),
+            oldDate,
+            booking.getService(),
+            booking.getBookingDate(),
+            booking.getPhone()
         );
     }
 }
