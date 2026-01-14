@@ -1,7 +1,6 @@
 # Lena Beauty Spa Booking System
 
-**Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site) 
-**Demo Video:** [Watch on YouTube](https://youtu.be/gDy9KtXmxs8)
+**Live Site:** [www.lenaspabooking.site](https://www.lenaspabooking.site) ||   **Demo Video:** [Watch on YouTube](https://youtu.be/gDy9KtXmxs8)
 
 A production-ready spa appointment booking platform with **2,000+ lines of code** across Java Spring Boot backend and Angular frontend, deployed on AWS with auto-scaling infrastructure serving a live customer base.
 
